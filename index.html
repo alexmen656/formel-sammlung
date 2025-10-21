@@ -9,7 +9,7 @@
 <body>
     <div class="container">
         <header>
-            <h1>📐 Physik Formelsammlung</h1>
+            <h1>Physik Formelsammlung</h1>
             <h2>Translation & Rotation</h2>
         </header>
 
@@ -17,6 +17,9 @@
             <button class="tab-button active" onclick="showTab('translation')">Translation</button>
             <button class="tab-button" onclick="showTab('rotation')">Rotation</button>
             <button class="tab-button" onclick="showTab('vergleich')">Vergleich</button>
+            <button class="tab-button" onclick="showTab('mechanik')">Mechanik</button>
+            <button class="tab-button" onclick="showTab('energie')">Energie & Wärme</button>
+            <button class="tab-button" onclick="showTab('optik')">Optik</button>
         </nav>
 
         <!-- Translation Tab -->
@@ -29,6 +32,7 @@
                     <h5>Geschwindigkeit</h5>
                     <p class="formula">v = s/t = ds/dt</p>
                     <p class="description">Durchschnittsgeschwindigkeit bzw. Momentangeschwindigkeit</p>
+                    <p class="unit">Einheit: [v] = m/s</p>
                     
                     <div class="calculator">
                         <input type="number" id="trans_s" placeholder="Strecke s (m)">
@@ -42,6 +46,7 @@
                     <h5>Beschleunigung</h5>
                     <p class="formula">a = Δv/Δt = dv/dt</p>
                     <p class="description">Änderung der Geschwindigkeit pro Zeit</p>
+                    <p class="unit">Einheit: [a] = m/s²</p>
                     
                     <div class="calculator">
                         <input type="number" id="trans_dv" placeholder="Geschwindigkeitsänderung Δv (m/s)">
@@ -374,8 +379,394 @@
             </div>
         </div>
 
+        <!-- Mechanik Tab (5./6. Klasse AHS) -->
+        <div id="mechanik" class="tab-content">
+            <h3>Mechanik (5./6. Klasse AHS)</h3>
+            
+            <div class="formula-section">
+                <h4>Grundlagen der Kinematik</h4>
+                
+                <div class="formula-card">
+                    <h5>Durchschnittsgeschwindigkeit</h5>
+                    <p class="formula">v = Δs/Δt</p>
+                    <p class="description">Geschwindigkeit = Wegänderung / Zeitänderung</p>
+                    <p class="unit">Einheit: [v] = m/s oder km/h</p>
+                    
+                    <div class="calculator">
+                        <input type="number" id="mech_s" placeholder="Wegstrecke Δs (m)">
+                        <input type="number" id="mech_t" placeholder="Zeit Δt (s)">
+                        <button onclick="calculateBasicVelocity()">Berechnen</button>
+                        <div class="result" id="mech_velocity_result"></div>
+                    </div>
+                </div>
+
+                <div class="formula-card">
+                    <h5>Gleichförmige Bewegung</h5>
+                    <p class="formula">s = v · t</p>
+                    <p class="description">Zurückgelegter Weg bei konstanter Geschwindigkeit</p>
+                    <p class="unit">Einheit: [s] = m, [v] = m/s, [t] = s</p>
+                    
+                    <div class="calculator">
+                        <input type="number" id="unif_v" placeholder="Geschwindigkeit v (m/s)">
+                        <input type="number" id="unif_t" placeholder="Zeit t (s)">
+                        <button onclick="calculateUniformMotion()">Berechnen</button>
+                        <div class="result" id="unif_motion_result"></div>
+                    </div>
+                </div>
+
+                <div class="formula-card">
+                    <h5>Beschleunigung</h5>
+                    <p class="formula">a = Δv/Δt</p>
+                    <p class="description">Beschleunigung = Geschwindigkeitsänderung / Zeit</p>
+                    <p class="unit">Einheit: [a] = m/s²</p>
+                    <p class="info">Erdbeschleunigung: g = 9,81 m/s²</p>
+                </div>
+
+                <div class="formula-card">
+                    <h5>Freier Fall</h5>
+                    <p class="formula">v = g · t</p>
+                    <p class="formula">s = ½ · g · t²</p>
+                    <p class="formula">v² = 2 · g · s</p>
+                    <p class="description">Bewegung unter Einfluss der Erdanziehung</p>
+                    
+                    <div class="calculator">
+                        <input type="number" id="fall_t" placeholder="Fallzeit t (s)">
+                        <button onclick="calculateFreeFall()">Berechnen</button>
+                        <div class="result" id="fall_result"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="formula-section">
+                <h4>Kräfte und Dynamik</h4>
+                
+                <div class="formula-card">
+                    <h5>Newton'sches Grundgesetz</h5>
+                    <p class="formula">F = m · a</p>
+                    <p class="description">Kraft = Masse × Beschleunigung</p>
+                    <p class="unit">Einheit: [F] = N (Newton), 1 N = 1 kg·m/s²</p>
+                    
+                    <div class="calculator">
+                        <input type="number" id="newton_m" placeholder="Masse m (kg)">
+                        <input type="number" id="newton_a" placeholder="Beschleunigung a (m/s²)">
+                        <button onclick="calculateNewtonForce()">Berechnen</button>
+                        <div class="result" id="newton_result"></div>
+                    </div>
+                </div>
+
+                <div class="formula-card">
+                    <h5>Gewichtskraft</h5>
+                    <p class="formula">F<sub>G</sub> = m · g</p>
+                    <p class="description">Gewichtskraft auf der Erde (g = 9,81 m/s²)</p>
+                    <p class="unit">Einheit: [F<sub>G</sub>] = N</p>
+                    
+                    <div class="calculator">
+                        <input type="number" id="weight_m" placeholder="Masse m (kg)">
+                        <button onclick="calculateWeight()">Berechnen</button>
+                        <div class="result" id="weight_result"></div>
+                    </div>
+                </div>
+
+                <div class="formula-card">
+                    <h5>Hookesches Gesetz (Federkraft)</h5>
+                    <p class="formula">F = D · s</p>
+                    <p class="description">Kraft = Federkonstante × Auslenkung</p>
+                    <p class="unit">Einheit: [D] = N/m, [s] = m</p>
+                    
+                    <div class="calculator">
+                        <input type="number" id="spring_d" placeholder="Federkonstante D (N/m)">
+                        <input type="number" id="spring_s" placeholder="Auslenkung s (m)">
+                        <button onclick="calculateSpringForce()">Berechnen</button>
+                        <div class="result" id="spring_result"></div>
+                    </div>
+                </div>
+
+                <div class="formula-card">
+                    <h5>Reibungskraft</h5>
+                    <p class="formula">F<sub>R</sub> = μ · F<sub>N</sub></p>
+                    <p class="description">Reibungskraft = Reibungszahl × Normalkraft</p>
+                    <p class="unit">μ ist dimensionslos</p>
+                    <p class="info">Typische Werte: Holz auf Holz μ ≈ 0,4; Stahl auf Stahl μ ≈ 0,15</p>
+                </div>
+
+                <div class="formula-card">
+                    <h5>Dichte</h5>
+                    <p class="formula">ρ = m/V</p>
+                    <p class="description">Dichte = Masse / Volumen</p>
+                    <p class="unit">Einheit: [ρ] = kg/m³ oder g/cm³</p>
+                    
+                    <div class="calculator">
+                        <input type="number" id="density_m" placeholder="Masse m (kg)">
+                        <input type="number" id="density_v" placeholder="Volumen V (m³)">
+                        <button onclick="calculateDensity()">Berechnen</button>
+                        <div class="result" id="density_result"></div>
+                    </div>
+                </div>
+
+                <div class="formula-card">
+                    <h5>Druck</h5>
+                    <p class="formula">p = F/A</p>
+                    <p class="description">Druck = Kraft / Fläche</p>
+                    <p class="unit">Einheit: [p] = Pa (Pascal), 1 Pa = 1 N/m²</p>
+                    <p class="info">Weitere Einheiten: 1 bar = 10⁵ Pa</p>
+                    
+                    <div class="calculator">
+                        <input type="number" id="pressure_f" placeholder="Kraft F (N)">
+                        <input type="number" id="pressure_a" placeholder="Fläche A (m²)">
+                        <button onclick="calculatePressure()">Berechnen</button>
+                        <div class="result" id="pressure_result"></div>
+                    </div>
+                </div>
+
+                <div class="formula-card">
+                    <h5>Schweredruck in Flüssigkeiten</h5>
+                    <p class="formula">p = ρ · g · h</p>
+                    <p class="description">Druck = Dichte × Erdbeschleunigung × Tiefe</p>
+                    <p class="unit">Einheit: [p] = Pa</p>
+                    <p class="info">Für Wasser: ρ = 1000 kg/m³</p>
+                </div>
+
+                <div class="formula-card">
+                    <h5>Auftrieb</h5>
+                    <p class="formula">F<sub>A</sub> = ρ<sub>Fl</sub> · V · g</p>
+                    <p class="description">Auftriebskraft = Dichte der Flüssigkeit × Volumen × g</p>
+                    <p class="unit">Einheit: [F<sub>A</sub>] = N</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Energie & Wärme Tab (5./6. Klasse AHS) -->
+        <div id="energie" class="tab-content">
+            <h3>Energie und Wärmelehre (5./6. Klasse AHS)</h3>
+            
+            <div class="formula-section">
+                <h4>Mechanische Energie</h4>
+                
+                <div class="formula-card">
+                    <h5>Arbeit</h5>
+                    <p class="formula">W = F · s</p>
+                    <p class="description">Arbeit = Kraft × Weg (wenn F parallel zu s)</p>
+                    <p class="unit">Einheit: [W] = J (Joule), 1 J = 1 N·m = 1 kg·m²/s²</p>
+                    
+                    <div class="calculator">
+                        <input type="number" id="work_f" placeholder="Kraft F (N)">
+                        <input type="number" id="work_s" placeholder="Weg s (m)">
+                        <button onclick="calculateBasicWork()">Berechnen</button>
+                        <div class="result" id="basic_work_result"></div>
+                    </div>
+                </div>
+
+                <div class="formula-card">
+                    <h5>Hubarbeit</h5>
+                    <p class="formula">W<sub>Hub</sub> = m · g · h</p>
+                    <p class="description">Arbeit zum Heben eines Körpers</p>
+                    <p class="unit">Einheit: [W] = J</p>
+                    
+                    <div class="calculator">
+                        <input type="number" id="lift_m" placeholder="Masse m (kg)">
+                        <input type="number" id="lift_h" placeholder="Höhe h (m)">
+                        <button onclick="calculateLiftWork()">Berechnen</button>
+                        <div class="result" id="lift_result"></div>
+                    </div>
+                </div>
+
+                <div class="formula-card">
+                    <h5>Potentielle Energie (Lageenergie)</h5>
+                    <p class="formula">E<sub>pot</sub> = m · g · h</p>
+                    <p class="description">Energie aufgrund der Höhe über dem Bezugsniveau</p>
+                    <p class="unit">Einheit: [E<sub>pot</sub>] = J</p>
+                    
+                    <div class="calculator">
+                        <input type="number" id="pot_m" placeholder="Masse m (kg)">
+                        <input type="number" id="pot_h" placeholder="Höhe h (m)">
+                        <button onclick="calculatePotentialEnergy()">Berechnen</button>
+                        <div class="result" id="pot_energy_result"></div>
+                    </div>
+                </div>
+
+                <div class="formula-card">
+                    <h5>Kinetische Energie (Bewegungsenergie)</h5>
+                    <p class="formula">E<sub>kin</sub> = ½ · m · v²</p>
+                    <p class="description">Energie aufgrund der Bewegung</p>
+                    <p class="unit">Einheit: [E<sub>kin</sub>] = J</p>
+                    
+                    <div class="calculator">
+                        <input type="number" id="kin_m" placeholder="Masse m (kg)">
+                        <input type="number" id="kin_v" placeholder="Geschwindigkeit v (m/s)">
+                        <button onclick="calculateKinEnergy()">Berechnen</button>
+                        <div class="result" id="kin_energy_result"></div>
+                    </div>
+                </div>
+
+                <div class="formula-card">
+                    <h5>Spannenergie (Feder)</h5>
+                    <p class="formula">E<sub>Spann</sub> = ½ · D · s²</p>
+                    <p class="description">Energie einer gespannten Feder</p>
+                    <p class="unit">Einheit: [E<sub>Spann</sub>] = J</p>
+                    
+                    <div class="calculator">
+                        <input type="number" id="spring_energy_d" placeholder="Federkonstante D (N/m)">
+                        <input type="number" id="spring_energy_s" placeholder="Auslenkung s (m)">
+                        <button onclick="calculateSpringEnergy()">Berechnen</button>
+                        <div class="result" id="spring_energy_result"></div>
+                    </div>
+                </div>
+
+                <div class="formula-card">
+                    <h5>Leistung</h5>
+                    <p class="formula">P = W/t = E/t</p>
+                    <p class="description">Leistung = Arbeit / Zeit = Energie / Zeit</p>
+                    <p class="unit">Einheit: [P] = W (Watt), 1 W = 1 J/s</p>
+                    
+                    <div class="calculator">
+                        <input type="number" id="power_w" placeholder="Arbeit W (J)">
+                        <input type="number" id="power_t" placeholder="Zeit t (s)">
+                        <button onclick="calculateBasicPower()">Berechnen</button>
+                        <div class="result" id="basic_power_result"></div>
+                    </div>
+                </div>
+
+                <div class="formula-card">
+                    <h5>Wirkungsgrad</h5>
+                    <p class="formula">η = W<sub>nutz</sub>/W<sub>zu</sub> = P<sub>nutz</sub>/P<sub>zu</sub></p>
+                    <p class="description">Verhältnis von Nutzenergie zu zugeführter Energie</p>
+                    <p class="unit">η ist dimensionslos (oft in % angegeben)</p>
+                    
+                    <div class="calculator">
+                        <input type="number" id="eff_nutz" placeholder="Nutzarbeit (J)">
+                        <input type="number" id="eff_zu" placeholder="Zugeführte Arbeit (J)">
+                        <button onclick="calculateEfficiency()">Berechnen</button>
+                        <div class="result" id="efficiency_result"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="formula-section">
+                <h4>Wärmelehre</h4>
+                
+                <div class="formula-card">
+                    <h5>Wärmekapazität</h5>
+                    <p class="formula">Q = c · m · ΔT</p>
+                    <p class="description">Wärmemenge = spezifische Wärmekapazität × Masse × Temperaturänderung</p>
+                    <p class="unit">Einheit: [Q] = J, [c] = J/(kg·K)</p>
+                    <p class="info">Für Wasser: c = 4180 J/(kg·K)</p>
+                    
+                    <div class="calculator">
+                        <input type="number" id="heat_c" placeholder="spez. Wärmekapazität c (J/(kg·K))">
+                        <input type="number" id="heat_m" placeholder="Masse m (kg)">
+                        <input type="number" id="heat_dt" placeholder="Temperaturänderung ΔT (K)">
+                        <button onclick="calculateHeat()">Berechnen</button>
+                        <div class="result" id="heat_result"></div>
+                    </div>
+                </div>
+
+                <div class="formula-card">
+                    <h5>Schmelz- und Verdampfungswärme</h5>
+                    <p class="formula">Q = q · m</p>
+                    <p class="description">Wärmemenge = spezifische Schmelz-/Verdampfungswärme × Masse</p>
+                    <p class="unit">Einheit: [Q] = J, [q] = J/kg</p>
+                    <p class="info">Wasser: q<sub>Schmelz</sub> = 334.000 J/kg, q<sub>Verdampf</sub> = 2.260.000 J/kg</p>
+                </div>
+
+                <div class="formula-card">
+                    <h5>Gasgesetze (Ideales Gas)</h5>
+                    <p class="formula">p · V = n · R · T</p>
+                    <p class="description">Allgemeine Gasgleichung</p>
+                    <p class="unit">R = 8,314 J/(mol·K)</p>
+                    <p class="info">Bei konstantem n: p₁·V₁/T₁ = p₂·V₂/T₂</p>
+                </div>
+
+                <div class="formula-card">
+                    <h5>Wärmeausdehnung (linear)</h5>
+                    <p class="formula">Δl = α · l₀ · ΔT</p>
+                    <p class="description">Längenänderung = Ausdehnungskoeffizient × Ausgangslänge × Temperaturänderung</p>
+                    <p class="unit">Einheit: [α] = 1/K</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Optik Tab (5./6. Klasse AHS) -->
+        <div id="optik" class="tab-content">
+            <h3>Optik (5./6. Klasse AHS)</h3>
+            
+            <div class="formula-section">
+                <h4>Grundlagen der Optik</h4>
+                
+                <div class="formula-card">
+                    <h5>Lichtgeschwindigkeit</h5>
+                    <p class="formula">c = 299.792.458 m/s ≈ 3·10⁸ m/s</p>
+                    <p class="description">Lichtgeschwindigkeit im Vakuum</p>
+                    <p class="info">Im Medium: v = c/n (n = Brechungsindex)</p>
+                </div>
+
+                <div class="formula-card">
+                    <h5>Reflexionsgesetz</h5>
+                    <p class="formula">Einfallswinkel α = Reflexionswinkel α'</p>
+                    <p class="description">Einfallender und reflektierter Strahl liegen in einer Ebene</p>
+                </div>
+
+                <div class="formula-card">
+                    <h5>Brechungsgesetz (Snellius)</h5>
+                    <p class="formula">n₁ · sin(α) = n₂ · sin(β)</p>
+                    <p class="description">n = Brechungsindex, α = Einfallswinkel, β = Brechungswinkel</p>
+                    <p class="unit">n ist dimensionslos</p>
+                    <p class="info">Luft: n ≈ 1,0; Wasser: n ≈ 1,33; Glas: n ≈ 1,5</p>
+                    
+                    <div class="calculator">
+                        <input type="number" id="snell_n1" placeholder="Brechungsindex n₁" value="1">
+                        <input type="number" id="snell_alpha" placeholder="Einfallswinkel α (°)">
+                        <input type="number" id="snell_n2" placeholder="Brechungsindex n₂">
+                        <button onclick="calculateSnell()">Berechnen</button>
+                        <div class="result" id="snell_result"></div>
+                    </div>
+                </div>
+
+                <div class="formula-card">
+                    <h5>Totalreflexion</h5>
+                    <p class="formula">sin(α<sub>grenz</sub>) = n₂/n₁</p>
+                    <p class="description">Grenzwinkel für Totalreflexion (bei n₁ > n₂)</p>
+                </div>
+
+                <div class="formula-card">
+                    <h5>Linsengleichung (dünne Linse)</h5>
+                    <p class="formula">1/f = 1/g + 1/b</p>
+                    <p class="description">f = Brennweite, g = Gegenstandsweite, b = Bildweite</p>
+                    <p class="unit">Einheit: alle in m (oder alle in cm)</p>
+                    
+                    <div class="calculator">
+                        <input type="number" id="lens_f" placeholder="Brennweite f (cm)">
+                        <input type="number" id="lens_g" placeholder="Gegenstandsweite g (cm)">
+                        <button onclick="calculateLens()">Berechnen</button>
+                        <div class="result" id="lens_result"></div>
+                    </div>
+                </div>
+
+                <div class="formula-card">
+                    <h5>Abbildungsmaßstab</h5>
+                    <p class="formula">V = B/G = b/g</p>
+                    <p class="description">Vergrößerung = Bildgröße / Gegenstandsgröße = Bildweite / Gegenstandsweite</p>
+                    <p class="unit">V ist dimensionslos</p>
+                    
+                    <div class="calculator">
+                        <input type="number" id="mag_b" placeholder="Bildweite b (cm)">
+                        <input type="number" id="mag_g" placeholder="Gegenstandsweite g (cm)">
+                        <button onclick="calculateMagnification()">Berechnen</button>
+                        <div class="result" id="magnification_result"></div>
+                    </div>
+                </div>
+
+                <div class="formula-card">
+                    <h5>Brechkraft</h5>
+                    <p class="formula">D = 1/f</p>
+                    <p class="description">Brechkraft = 1 / Brennweite</p>
+                    <p class="unit">Einheit: [D] = dpt (Dioptrie), 1 dpt = 1/m</p>
+                    <p class="info">f in Meter einsetzen!</p>
+                </div>
+            </div>
+        </div>
+
         <footer>
-            <p>© 2025 Physik Formelsammlung | Alle Formeln und Berechnungen</p>
+            <p>Physik Formelsammlung | AHS Gymnasium Österreich (5./6. Klasse)</p>
         </footer>
     </div>
 
