@@ -627,4 +627,568 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+    
+    // Initialize all graphs
+    initializeGraphs();
 });
+
+// Graph Storage
+let charts = {};
+
+// Initialize all graphs
+function initializeGraphs() {
+    initUniformMotionGraph();
+    initAcceleratedMotionGraph();
+    initFreeFallGraph();
+    initEnergyGraph();
+    initSpringGraph();
+    initRotationGraph();
+    initAngularAccelGraph();
+    initHeatGraph();
+}
+
+// Chart.js default configuration
+Chart.defaults.font.family = '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif';
+Chart.defaults.color = '#1d1d1f';
+
+// Uniform Motion Graph
+function initUniformMotionGraph() {
+    const ctx = document.getElementById('uniformMotionChart');
+    if (!ctx) return;
+    
+    charts.uniformMotion = new Chart(ctx, {
+        type: 'line',
+        data: {
+            datasets: [{
+                label: 's(t) - Weg',
+                borderColor: '#0071e3',
+                backgroundColor: 'rgba(0, 113, 227, 0.1)',
+                tension: 0,
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Gleichförmige Bewegung',
+                    font: { size: 16, weight: '600' }
+                },
+                legend: { display: true }
+            },
+            scales: {
+                x: {
+                    type: 'linear',
+                    title: { display: true, text: 'Zeit t (s)' }
+                },
+                y: {
+                    title: { display: true, text: 'Weg s (m)' }
+                }
+            }
+        }
+    });
+    updateUniformMotionGraph();
+}
+
+function updateUniformMotionGraph() {
+    if (!charts.uniformMotion) return;
+    
+    const v = parseFloat(document.getElementById('graph_uniform_v').value) || 10;
+    const tmax = parseFloat(document.getElementById('graph_uniform_tmax').value) || 10;
+    
+    const data = [];
+    for (let t = 0; t <= tmax; t += tmax / 50) {
+        data.push({ x: t, y: v * t });
+    }
+    
+    charts.uniformMotion.data.datasets[0].data = data;
+    charts.uniformMotion.update();
+}
+
+// Accelerated Motion Graph
+function initAcceleratedMotionGraph() {
+    const ctx = document.getElementById('acceleratedMotionChart');
+    if (!ctx) return;
+    
+    charts.acceleratedMotion = new Chart(ctx, {
+        type: 'line',
+        data: {
+            datasets: [
+                {
+                    label: 's(t) - Weg',
+                    borderColor: '#0071e3',
+                    backgroundColor: 'rgba(0, 113, 227, 0.1)',
+                    tension: 0.3,
+                    yAxisID: 'y',
+                    fill: true
+                },
+                {
+                    label: 'v(t) - Geschwindigkeit',
+                    borderColor: '#00c896',
+                    backgroundColor: 'rgba(0, 200, 150, 0.1)',
+                    tension: 0,
+                    yAxisID: 'y1',
+                    fill: true
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Gleichmäßig beschleunigte Bewegung',
+                    font: { size: 16, weight: '600' }
+                }
+            },
+            scales: {
+                x: {
+                    type: 'linear',
+                    title: { display: true, text: 'Zeit t (s)' }
+                },
+                y: {
+                    type: 'linear',
+                    position: 'left',
+                    title: { display: true, text: 'Weg s (m)' }
+                },
+                y1: {
+                    type: 'linear',
+                    position: 'right',
+                    title: { display: true, text: 'Geschwindigkeit v (m/s)' },
+                    grid: { drawOnChartArea: false }
+                }
+            }
+        }
+    });
+    updateAcceleratedMotionGraph();
+}
+
+function updateAcceleratedMotionGraph() {
+    if (!charts.acceleratedMotion) return;
+    
+    const v0 = parseFloat(document.getElementById('graph_accel_v0').value) || 0;
+    const a = parseFloat(document.getElementById('graph_accel_a').value) || 2;
+    const tmax = parseFloat(document.getElementById('graph_accel_tmax').value) || 10;
+    
+    const dataS = [];
+    const dataV = [];
+    for (let t = 0; t <= tmax; t += tmax / 50) {
+        dataS.push({ x: t, y: v0 * t + 0.5 * a * t * t });
+        dataV.push({ x: t, y: v0 + a * t });
+    }
+    
+    charts.acceleratedMotion.data.datasets[0].data = dataS;
+    charts.acceleratedMotion.data.datasets[1].data = dataV;
+    charts.acceleratedMotion.update();
+}
+
+// Free Fall Graph
+function initFreeFallGraph() {
+    const ctx = document.getElementById('freeFallChart');
+    if (!ctx) return;
+    
+    charts.freeFall = new Chart(ctx, {
+        type: 'line',
+        data: {
+            datasets: [{
+                label: 'h(t) - Höhe',
+                borderColor: '#ff3b30',
+                backgroundColor: 'rgba(255, 59, 48, 0.1)',
+                tension: 0.3,
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Freier Fall',
+                    font: { size: 16, weight: '600' }
+                }
+            },
+            scales: {
+                x: {
+                    type: 'linear',
+                    title: { display: true, text: 'Zeit t (s)' }
+                },
+                y: {
+                    title: { display: true, text: 'Höhe h (m)' }
+                }
+            }
+        }
+    });
+    updateFreeFallGraph();
+}
+
+function updateFreeFallGraph() {
+    if (!charts.freeFall) return;
+    
+    const h0 = parseFloat(document.getElementById('graph_fall_h0').value) || 100;
+    const g = 9.81;
+    const tmax = Math.sqrt(2 * h0 / g);
+    
+    const data = [];
+    for (let t = 0; t <= tmax; t += tmax / 50) {
+        const h = h0 - 0.5 * g * t * t;
+        if (h >= 0) data.push({ x: t, y: h });
+    }
+    
+    charts.freeFall.data.datasets[0].data = data;
+    charts.freeFall.update();
+}
+
+// Energy Graph
+function initEnergyGraph() {
+    const ctx = document.getElementById('energyChart');
+    if (!ctx) return;
+    
+    charts.energy = new Chart(ctx, {
+        type: 'line',
+        data: {
+            datasets: [
+                {
+                    label: 'E_pot - Potentielle Energie',
+                    borderColor: '#ff3b30',
+                    backgroundColor: 'rgba(255, 59, 48, 0.1)',
+                    tension: 0.3,
+                    fill: true
+                },
+                {
+                    label: 'E_kin - Kinetische Energie',
+                    borderColor: '#0071e3',
+                    backgroundColor: 'rgba(0, 113, 227, 0.1)',
+                    tension: 0.3,
+                    fill: true
+                },
+                {
+                    label: 'E_ges - Gesamtenergie',
+                    borderColor: '#00c896',
+                    backgroundColor: 'rgba(0, 200, 150, 0.1)',
+                    tension: 0,
+                    fill: false,
+                    borderDash: [5, 5]
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Energieumwandlung beim freien Fall',
+                    font: { size: 16, weight: '600' }
+                }
+            },
+            scales: {
+                x: {
+                    type: 'linear',
+                    title: { display: true, text: 'Höhe h (m)' }
+                },
+                y: {
+                    title: { display: true, text: 'Energie E (J)' }
+                }
+            }
+        }
+    });
+    updateEnergyGraph();
+}
+
+function updateEnergyGraph() {
+    if (!charts.energy) return;
+    
+    const m = parseFloat(document.getElementById('graph_energy_m').value) || 10;
+    const h0 = parseFloat(document.getElementById('graph_energy_h0').value) || 50;
+    const g = 9.81;
+    const E_ges = m * g * h0;
+    
+    const dataPot = [];
+    const dataKin = [];
+    const dataGes = [];
+    
+    for (let h = h0; h >= 0; h -= h0 / 50) {
+        const E_pot = m * g * h;
+        const E_kin = E_ges - E_pot;
+        dataPot.push({ x: h, y: E_pot });
+        dataKin.push({ x: h, y: E_kin });
+        dataGes.push({ x: h, y: E_ges });
+    }
+    
+    charts.energy.data.datasets[0].data = dataPot;
+    charts.energy.data.datasets[1].data = dataKin;
+    charts.energy.data.datasets[2].data = dataGes;
+    charts.energy.update();
+}
+
+// Spring Graph
+function initSpringGraph() {
+    const ctx = document.getElementById('springChart');
+    if (!ctx) return;
+    
+    charts.spring = new Chart(ctx, {
+        type: 'line',
+        data: {
+            datasets: [
+                {
+                    label: 'F(s) - Federkraft',
+                    borderColor: '#0071e3',
+                    backgroundColor: 'rgba(0, 113, 227, 0.1)',
+                    tension: 0,
+                    yAxisID: 'y',
+                    fill: true
+                },
+                {
+                    label: 'E(s) - Spannenergie',
+                    borderColor: '#ff9500',
+                    backgroundColor: 'rgba(255, 149, 0, 0.1)',
+                    tension: 0.3,
+                    yAxisID: 'y1',
+                    fill: true
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Federkraft und Spannenergie',
+                    font: { size: 16, weight: '600' }
+                }
+            },
+            scales: {
+                x: {
+                    type: 'linear',
+                    title: { display: true, text: 'Auslenkung s (m)' }
+                },
+                y: {
+                    type: 'linear',
+                    position: 'left',
+                    title: { display: true, text: 'Kraft F (N)' }
+                },
+                y1: {
+                    type: 'linear',
+                    position: 'right',
+                    title: { display: true, text: 'Energie E (J)' },
+                    grid: { drawOnChartArea: false }
+                }
+            }
+        }
+    });
+    updateSpringGraph();
+}
+
+function updateSpringGraph() {
+    if (!charts.spring) return;
+    
+    const D = parseFloat(document.getElementById('graph_spring_d').value) || 100;
+    const smax = parseFloat(document.getElementById('graph_spring_smax').value) || 0.5;
+    
+    const dataF = [];
+    const dataE = [];
+    
+    for (let s = 0; s <= smax; s += smax / 50) {
+        dataF.push({ x: s, y: D * s });
+        dataE.push({ x: s, y: 0.5 * D * s * s });
+    }
+    
+    charts.spring.data.datasets[0].data = dataF;
+    charts.spring.data.datasets[1].data = dataE;
+    charts.spring.update();
+}
+
+// Rotation Graph
+function initRotationGraph() {
+    const ctx = document.getElementById('rotationChart');
+    if (!ctx) return;
+    
+    charts.rotation = new Chart(ctx, {
+        type: 'line',
+        data: {
+            datasets: [{
+                label: 'φ(t) - Winkel',
+                borderColor: '#af52de',
+                backgroundColor: 'rgba(175, 82, 222, 0.1)',
+                tension: 0,
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Gleichförmige Rotation',
+                    font: { size: 16, weight: '600' }
+                }
+            },
+            scales: {
+                x: {
+                    type: 'linear',
+                    title: { display: true, text: 'Zeit t (s)' }
+                },
+                y: {
+                    title: { display: true, text: 'Winkel φ (rad)' }
+                }
+            }
+        }
+    });
+    updateRotationGraph();
+}
+
+function updateRotationGraph() {
+    if (!charts.rotation) return;
+    
+    const omega = parseFloat(document.getElementById('graph_rot_omega').value) || 2;
+    const tmax = parseFloat(document.getElementById('graph_rot_tmax').value) || 10;
+    
+    const data = [];
+    for (let t = 0; t <= tmax; t += tmax / 50) {
+        data.push({ x: t, y: omega * t });
+    }
+    
+    charts.rotation.data.datasets[0].data = data;
+    charts.rotation.update();
+}
+
+// Angular Acceleration Graph
+function initAngularAccelGraph() {
+    const ctx = document.getElementById('angularAccelChart');
+    if (!ctx) return;
+    
+    charts.angularAccel = new Chart(ctx, {
+        type: 'line',
+        data: {
+            datasets: [
+                {
+                    label: 'φ(t) - Winkel',
+                    borderColor: '#af52de',
+                    backgroundColor: 'rgba(175, 82, 222, 0.1)',
+                    tension: 0.3,
+                    yAxisID: 'y',
+                    fill: true
+                },
+                {
+                    label: 'ω(t) - Winkelgeschwindigkeit',
+                    borderColor: '#ff2d55',
+                    backgroundColor: 'rgba(255, 45, 85, 0.1)',
+                    tension: 0,
+                    yAxisID: 'y1',
+                    fill: true
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Rotation mit konstanter Winkelbeschleunigung',
+                    font: { size: 16, weight: '600' }
+                }
+            },
+            scales: {
+                x: {
+                    type: 'linear',
+                    title: { display: true, text: 'Zeit t (s)' }
+                },
+                y: {
+                    type: 'linear',
+                    position: 'left',
+                    title: { display: true, text: 'Winkel φ (rad)' }
+                },
+                y1: {
+                    type: 'linear',
+                    position: 'right',
+                    title: { display: true, text: 'Winkelgeschw. ω (rad/s)' },
+                    grid: { drawOnChartArea: false }
+                }
+            }
+        }
+    });
+    updateAngularAccelGraph();
+}
+
+function updateAngularAccelGraph() {
+    if (!charts.angularAccel) return;
+    
+    const omega0 = parseFloat(document.getElementById('graph_ang_omega0').value) || 0;
+    const alpha = parseFloat(document.getElementById('graph_ang_alpha').value) || 1;
+    const tmax = parseFloat(document.getElementById('graph_ang_tmax').value) || 10;
+    
+    const dataPhi = [];
+    const dataOmega = [];
+    
+    for (let t = 0; t <= tmax; t += tmax / 50) {
+        dataPhi.push({ x: t, y: omega0 * t + 0.5 * alpha * t * t });
+        dataOmega.push({ x: t, y: omega0 + alpha * t });
+    }
+    
+    charts.angularAccel.data.datasets[0].data = dataPhi;
+    charts.angularAccel.data.datasets[1].data = dataOmega;
+    charts.angularAccel.update();
+}
+
+// Heat Graph
+function initHeatGraph() {
+    const ctx = document.getElementById('heatChart');
+    if (!ctx) return;
+    
+    charts.heat = new Chart(ctx, {
+        type: 'line',
+        data: {
+            datasets: [{
+                label: 'Q(ΔT) - Wärmemenge',
+                borderColor: '#ff3b30',
+                backgroundColor: 'rgba(255, 59, 48, 0.1)',
+                tension: 0,
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Erwärmung von Wasser',
+                    font: { size: 16, weight: '600' }
+                }
+            },
+            scales: {
+                x: {
+                    type: 'linear',
+                    title: { display: true, text: 'Temperaturänderung ΔT (K)' }
+                },
+                y: {
+                    title: { display: true, text: 'Wärmemenge Q (J)' }
+                }
+            }
+        }
+    });
+    updateHeatGraph();
+}
+
+function updateHeatGraph() {
+    if (!charts.heat) return;
+    
+    const m = parseFloat(document.getElementById('graph_heat_m').value) || 1;
+    const dtmax = parseFloat(document.getElementById('graph_heat_dtmax').value) || 100;
+    const c = 4180; // J/(kg·K) for water
+    
+    const data = [];
+    for (let dt = 0; dt <= dtmax; dt += dtmax / 50) {
+        data.push({ x: dt, y: c * m * dt });
+    }
+    
+    charts.heat.data.datasets[0].data = data;
+    charts.heat.update();
+}

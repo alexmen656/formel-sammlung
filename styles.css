@@ -195,6 +195,53 @@ header h2 {
     line-height: 1.6;
 }
 
+.chart-container {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    margin-top: 24px;
+    padding: 20px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.graph-controls {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 16px;
+    margin-top: 20px;
+    padding: 20px;
+    background: white;
+    border-radius: 12px;
+    border: 1px solid #d2d2d7;
+}
+
+.graph-controls label {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 0.95em;
+    color: #1d1d1f;
+    font-weight: 500;
+}
+
+.graph-controls input {
+    padding: 10px 14px;
+    border: 1px solid #d2d2d7;
+    border-radius: 8px;
+    font-size: 1em;
+    background: #fbfbfd;
+    transition: all 0.2s ease;
+}
+
+.graph-controls input:focus {
+    outline: none;
+    border-color: #0071e3;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.1);
+}
+
 .calculator {
     background: white;
     padding: 24px;

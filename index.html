@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Physik Formelsammlung - Translation & Rotation</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </head>
 <body>
     <div class="container">
@@ -20,6 +21,7 @@
             <button class="tab-button" onclick="showTab('mechanik')">Mechanik</button>
             <button class="tab-button" onclick="showTab('energie')">Energie & Wärme</button>
             <button class="tab-button" onclick="showTab('optik')">Optik</button>
+            <button class="tab-button" onclick="showTab('graphen')">Graphen</button>
         </nav>
 
         <!-- Translation Tab -->
@@ -681,6 +683,183 @@
                     <p class="formula">Δl = α · l₀ · ΔT</p>
                     <p class="description">Längenänderung = Ausdehnungskoeffizient × Ausgangslänge × Temperaturänderung</p>
                     <p class="unit">Einheit: [α] = 1/K</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Graphen Tab -->
+        <div id="graphen" class="tab-content">
+            <h3>Interaktive Graphen</h3>
+            
+            <div class="formula-section">
+                <h4>Kinematik Graphen</h4>
+                
+                <div class="formula-card">
+                    <h5>Gleichförmige Bewegung</h5>
+                    <p class="description">s(t) = v · t</p>
+                    
+                    <div class="graph-controls">
+                        <label>
+                            Geschwindigkeit v (m/s):
+                            <input type="number" id="graph_uniform_v" value="10" step="1" oninput="updateUniformMotionGraph()">
+                        </label>
+                        <label>
+                            Maximale Zeit (s):
+                            <input type="number" id="graph_uniform_tmax" value="10" step="1" oninput="updateUniformMotionGraph()">
+                        </label>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="uniformMotionChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="formula-card">
+                    <h5>Gleichmäßig beschleunigte Bewegung</h5>
+                    <p class="description">s(t) = v₀·t + ½·a·t² und v(t) = v₀ + a·t</p>
+                    
+                    <div class="graph-controls">
+                        <label>
+                            Anfangsgeschwindigkeit v₀ (m/s):
+                            <input type="number" id="graph_accel_v0" value="0" step="1" oninput="updateAcceleratedMotionGraph()">
+                        </label>
+                        <label>
+                            Beschleunigung a (m/s²):
+                            <input type="number" id="graph_accel_a" value="2" step="0.5" oninput="updateAcceleratedMotionGraph()">
+                        </label>
+                        <label>
+                            Maximale Zeit (s):
+                            <input type="number" id="graph_accel_tmax" value="10" step="1" oninput="updateAcceleratedMotionGraph()">
+                        </label>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="acceleratedMotionChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="formula-card">
+                    <h5>Freier Fall</h5>
+                    <p class="description">h(t) = h₀ - ½·g·t² mit g = 9,81 m/s²</p>
+                    
+                    <div class="graph-controls">
+                        <label>
+                            Anfangshöhe h₀ (m):
+                            <input type="number" id="graph_fall_h0" value="100" step="10" oninput="updateFreeFallGraph()">
+                        </label>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="freeFallChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="formula-section">
+                <h4>Energie Graphen</h4>
+                
+                <div class="formula-card">
+                    <h5>Potentielle und Kinetische Energie</h5>
+                    <p class="description">Energieumwandlung beim freien Fall</p>
+                    
+                    <div class="graph-controls">
+                        <label>
+                            Masse m (kg):
+                            <input type="number" id="graph_energy_m" value="10" step="1" oninput="updateEnergyGraph()">
+                        </label>
+                        <label>
+                            Anfangshöhe h₀ (m):
+                            <input type="number" id="graph_energy_h0" value="50" step="5" oninput="updateEnergyGraph()">
+                        </label>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="energyChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="formula-card">
+                    <h5>Federkraft und Spannenergie</h5>
+                    <p class="description">F(s) = D·s und E(s) = ½·D·s²</p>
+                    
+                    <div class="graph-controls">
+                        <label>
+                            Federkonstante D (N/m):
+                            <input type="number" id="graph_spring_d" value="100" step="10" oninput="updateSpringGraph()">
+                        </label>
+                        <label>
+                            Max. Auslenkung (m):
+                            <input type="number" id="graph_spring_smax" value="0.5" step="0.1" oninput="updateSpringGraph()">
+                        </label>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="springChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="formula-section">
+                <h4>Rotation Graphen</h4>
+                
+                <div class="formula-card">
+                    <h5>Winkelgeschwindigkeit und Winkel</h5>
+                    <p class="description">φ(t) = ω·t und ω = const</p>
+                    
+                    <div class="graph-controls">
+                        <label>
+                            Winkelgeschwindigkeit ω (rad/s):
+                            <input type="number" id="graph_rot_omega" value="2" step="0.5" oninput="updateRotationGraph()">
+                        </label>
+                        <label>
+                            Maximale Zeit (s):
+                            <input type="number" id="graph_rot_tmax" value="10" step="1" oninput="updateRotationGraph()">
+                        </label>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="rotationChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="formula-card">
+                    <h5>Winkelbeschleunigung</h5>
+                    <p class="description">φ(t) = ω₀·t + ½·α·t² und ω(t) = ω₀ + α·t</p>
+                    
+                    <div class="graph-controls">
+                        <label>
+                            Anfangswinkelgeschw. ω₀ (rad/s):
+                            <input type="number" id="graph_ang_omega0" value="0" step="0.5" oninput="updateAngularAccelGraph()">
+                        </label>
+                        <label>
+                            Winkelbeschleunigung α (rad/s²):
+                            <input type="number" id="graph_ang_alpha" value="1" step="0.1" oninput="updateAngularAccelGraph()">
+                        </label>
+                        <label>
+                            Maximale Zeit (s):
+                            <input type="number" id="graph_ang_tmax" value="10" step="1" oninput="updateAngularAccelGraph()">
+                        </label>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="angularAccelChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="formula-section">
+                <h4>Wärmelehre Graphen</h4>
+                
+                <div class="formula-card">
+                    <h5>Erwärmung von Wasser</h5>
+                    <p class="description">Q(ΔT) = c·m·ΔT mit c = 4180 J/(kg·K)</p>
+                    
+                    <div class="graph-controls">
+                        <label>
+                            Masse m (kg):
+                            <input type="number" id="graph_heat_m" value="1" step="0.1" oninput="updateHeatGraph()">
+                        </label>
+                        <label>
+                            Max. Temperaturänderung (K):
+                            <input type="number" id="graph_heat_dtmax" value="100" step="10" oninput="updateHeatGraph()">
+                        </label>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="heatChart"></canvas>
+                    </div>
                 </div>
             </div>
         </div>
