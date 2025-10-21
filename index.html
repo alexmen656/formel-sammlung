@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Physik Formelsammlung - Translation & Rotation</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📐 Physik Formelsammlung</h1>
+            <h2>Translation & Rotation</h2>
+        </header>
+
+        <nav class="tabs">
+            <button class="tab-button active" onclick="showTab('translation')">Translation</button>
+            <button class="tab-button" onclick="showTab('rotation')">Rotation</button>
+            <button class="tab-button" onclick="showTab('vergleich')">Vergleich</button>
+        </nav>
+
+        <!-- Translation Tab -->
+        <div id="translation" class="tab-content active">
+            <h3>Translationsbewegung</h3>
+            
+            <div class="formula-section">
+                <h4>Grundlegende Größen</h4>
+                <div class="formula-card">
+                    <h5>Geschwindigkeit</h5>
+                    <p class="formula">v = s/t = ds/dt</p>
+                    <p class="description">Durchschnittsgeschwindigkeit bzw. Momentangeschwindigkeit</p>
+                    
+                    <div class="calculator">
+                        <input type="number" id="trans_s" placeholder="Strecke s (m)">
+                        <input type="number" id="trans_t" placeholder="Zeit t (s)">
+                        <button onclick="calculateVelocity()">Berechnen</button>
+                        <div class="result" id="velocity_result"></div>
+                    </div>
+                </div>
+
+                <div class="formula-card">
+                    <h5>Beschleunigung</h5>
+                    <p class="formula">a = Δv/Δt = dv/dt</p>
+                    <p class="description">Änderung der Geschwindigkeit pro Zeit</p>
+                    
+                    <div class="calculator">
+                        <input type="number" id="trans_dv" placeholder="Geschwindigkeitsänderung Δv (m/s)">
+                        <input type="number" id="trans_dt" placeholder="Zeit Δt (s)">
+                        <button onclick="calculateAcceleration()">Berechnen</button>
+                        <div class="result" id="acceleration_result"></div>
+                    </div>
+                </div>
+
+                <div class="formula-card">
+                    <h5>Gleichmäßig beschleunigte Bewegung</h5>
+                    <p class="formula">s = s₀ + v₀·t + ½·a·t²</p>
+                    <p class="formula">v = v₀ + a·t</p>
+                    <p class="formula">v² = v₀² + 2·a·s</p>
+                    
+                    <div class="calculator">
+                        <input type="number" id="trans_v0" placeholder="Anfangsgeschwindigkeit v₀ (m/s)" value="0">
+                        <input type="number" id="trans_a" placeholder="Beschleunigung a (m/s²)">
+                        <input type="number" id="trans_time" placeholder="Zeit t (s)">
+                        <button onclick="calculateUniformAcceleration()">Berechnen</button>
+                        <div class="result" id="uniform_result"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="formula-section">
+                <h4>Dynamik</h4>
+                <div class="formula-card">
+                    <h5>Newton'sches Bewegungsgesetz</h5>
+                    <p class="formula">F = m·a</p>
+                    <p class="description">Kraft = Masse × Beschleunigung</p>
+                    
+                    <div class="calculator">
+                        <input type="number" id="trans_mass" placeholder="Masse m (kg)">
+                        <input type="number" id="trans_accel" placeholder="Beschleunigung a (m/s²)">
+                        <button onclick="calculateForce()">Berechnen</button>
+                        <div class="result" id="force_result"></div>
+                    </div>
+                </div>
+
+                <div class="formula-card">
+                    <h5>Impuls</h5>
+                    <p class="formula">p = m·v</p>
+                    <p class="description">Impuls = Masse × Geschwindigkeit</p>
+                    
+                    <div class="calculator">
+                        <input type="number" id="imp_mass" placeholder="Masse m (kg)">
+                        <input type="number" id="imp_vel" placeholder="Geschwindigkeit v (m/s)">
+                        <button onclick="calculateMomentum()">Berechnen</button>
+                        <div class="result" id="momentum_result"></div>
+                    </div>
+                </div>
+
+                <div class="formula-card">
+                    <h5>Kinetische Energie</h5>
+                    <p class="formula">E<sub>kin</sub> = ½·m·v²</p>
+                    <p class="description">Bewegungsenergie</p>
+                    
+                    <div class="calculator">
+                        <input type="number" id="kin_mass" placeholder="Masse m (kg)">
+                        <input type="number" id="kin_vel" placeholder="Geschwindigkeit v (m/s)">
+                        <button onclick="calculateKineticEnergy()">Berechnen</button>
+                        <div class="result" id="kinetic_result"></div>
+                    </div>
+                </div>
+
+                <div class="formula-card">
+                    <h5>Arbeit</h5>
+                    <p class="formula">W = F·s·cos(α)</p>
+                    <p class="description">Arbeit = Kraft × Weg × cos(Winkel)</p>
+                    
+                    <div class="calculator">
+                        <input type="number" id="work_force" placeholder="Kraft F (N)">
+                        <input type="number" id="work_distance" placeholder="Strecke s (m)">
+                        <input type="number" id="work_angle" placeholder="Winkel α (°)" value="0">
+                        <button onclick="calculateWork()">Berechnen</button>
+                        <div class="result" id="work_result"></div>
+                    </div>
+                </div>
+
+                <div class="formula-card">
+                    <h5>Leistung</h5>
+                    <p class="formula">P = W/t = F·v</p>
+                    <p class="description">Leistung = Arbeit pro Zeit</p>
+                    
+                    <div class="calculator">
+                        <input type="number" id="power_work" placeholder="Arbeit W (J)">
+                        <input type="number" id="power_time" placeholder="Zeit t (s)">
+                        <button onclick="calculatePower()">Berechnen</button>
+                        <div class="result" id="power_result"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Rotation Tab -->
+        <div id="rotation" class="tab-content">
+            <h3>Rotationsbewegung</h3>
+            
+            <div class="formula-section">
+                <h4>Grundlegende Größen</h4>
+                <div class="formula-card">
+                    <h5>Winkelgeschwindigkeit</h5>
+                    <p class="formula">ω = φ/t = dφ/dt = 2π/T = 2πf</p>
+                    <p class="description">Winkel pro Zeit, mit Periode T und Frequenz f</p>
+                    
+                    <div class="calculator">
+                        <input type="number" id="rot_phi" placeholder="Winkel φ (rad)">
+                        <input type="number" id="rot_t" placeholder="Zeit t (s)">
+                        <button onclick="calculateAngularVelocity()">Berechnen</button>
+                        <div class="result" id="angular_velocity_result"></div>
+                    </div>
+                </div>
+
+                <div class="formula-card">
+                    <h5>Winkelbeschleunigung</h5>
+                    <p class="formula">α = Δω/Δt = dω/dt</p>
+                    <p class="description">Änderung der Winkelgeschwindigkeit pro Zeit</p>
+                    
+                    <div class="calculator">
+                        <input type="number" id="rot_dw" placeholder="Winkelgeschw.-Änderung Δω (rad/s)">
+                        <input type="number" id="rot_dt" placeholder="Zeit Δt (s)">
+                        <button onclick="calculateAngularAcceleration()">Berechnen</button>
+                        <div class="result" id="angular_acceleration_result"></div>
+                    </div>
+                </div>
+
+                <div class="formula-card">
+                    <h5>Zusammenhang Translation-Rotation</h5>
+                    <p class="formula">v = ω·r</p>
+                    <p class="formula">a<sub>t</sub> = α·r (Tangentialbeschleunigung)</p>
+                    <p class="formula">a<sub>z</sub> = ω²·r = v²/r (Zentripetalbeschleunigung)</p>
+                    
+                    <div class="calculator">
+                        <input type="number" id="conv_omega" placeholder="Winkelgeschwindigkeit ω (rad/s)">
+                        <input type="number" id="conv_radius" placeholder="Radius r (m)">
+                        <button onclick="calculateConversion()">Berechnen</button>
+                        <div class="result" id="conversion_result"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="formula-section">
+                <h4>Dynamik der Rotation</h4>
+                <div class="formula-card">
+                    <h5>Trägheitsmoment</h5>
+                    <p class="formula">I = Σ m<sub>i</sub>·r<sub>i</sub>²</p>
+                    <p class="description">Spezielle Fälle:</p>
+                    <ul>
+                        <li>Punktmasse: I = m·r²</li>
+                        <li>Vollzylinder/Scheibe: I = ½·m·r²</li>
+                        <li>Hohlzylinder: I = m·r²</li>
+                        <li>Kugel (voll): I = ⅖·m·r²</li>
+                        <li>Stab (Achse durch Mitte): I = 1/12·m·l²</li>
+                    </ul>
+                    
+                    <div class="calculator">
+                        <select id="inertia_type">
+                            <option value="point">Punktmasse</option>
+                            <option value="disk">Vollzylinder/Scheibe</option>
+                            <option value="hollow">Hohlzylinder</option>
+                            <option value="sphere">Vollkugel</option>
+                            <option value="rod">Stab (Mitte)</option>
+                        </select>
+                        <input type="number" id="inertia_mass" placeholder="Masse m (kg)">
+                        <input type="number" id="inertia_radius" placeholder="Radius r (m) oder Länge l (m)">
+                        <button onclick="calculateInertia()">Berechnen</button>
+                        <div class="result" id="inertia_result"></div>
+                    </div>
+                </div>
+
+                <div class="formula-card">
+                    <h5>Drehmoment</h5>
+                    <p class="formula">M = I·α = r×F</p>
+                    <p class="description">Drehmoment = Trägheitsmoment × Winkelbeschleunigung</p>
+                    
+                    <div class="calculator">
+                        <input type="number" id="torque_inertia" placeholder="Trägheitsmoment I (kg·m²)">
+                        <input type="number" id="torque_alpha" placeholder="Winkelbeschleunigung α (rad/s²)">
+                        <button onclick="calculateTorque()">Berechnen</button>
+                        <div class="result" id="torque_result"></div>
+                    </div>
+                </div>
+
+                <div class="formula-card">
+                    <h5>Drehimpuls</h5>
+                    <p class="formula">L = I·ω = r×p</p>
+                    <p class="description">Drehimpuls = Trägheitsmoment × Winkelgeschwindigkeit</p>
+                    
+                    <div class="calculator">
+                        <input type="number" id="ang_mom_inertia" placeholder="Trägheitsmoment I (kg·m²)">
+                        <input type="number" id="ang_mom_omega" placeholder="Winkelgeschwindigkeit ω (rad/s)">
+                        <button onclick="calculateAngularMomentum()">Berechnen</button>
+                        <div class="result" id="angular_momentum_result"></div>
+                    </div>
+                </div>
+
+                <div class="formula-card">
+                    <h5>Rotationsenergie</h5>
+                    <p class="formula">E<sub>rot</sub> = ½·I·ω²</p>
+                    <p class="description">Kinetische Energie der Rotation</p>
+                    
+                    <div class="calculator">
+                        <input type="number" id="rot_energy_inertia" placeholder="Trägheitsmoment I (kg·m²)">
+                        <input type="number" id="rot_energy_omega" placeholder="Winkelgeschwindigkeit ω (rad/s)">
+                        <button onclick="calculateRotationalEnergy()">Berechnen</button>
+                        <div class="result" id="rotational_energy_result"></div>
+                    </div>
+                </div>
+
+                <div class="formula-card">
+                    <h5>Rotationsarbeit</h5>
+                    <p class="formula">W = M·φ</p>
+                    <p class="description">Arbeit = Drehmoment × Winkel</p>
+                    
+                    <div class="calculator">
+                        <input type="number" id="rot_work_torque" placeholder="Drehmoment M (N·m)">
+                        <input type="number" id="rot_work_angle" placeholder="Winkel φ (rad)">
+                        <button onclick="calculateRotationalWork()">Berechnen</button>
+                        <div class="result" id="rotational_work_result"></div>
+                    </div>
+                </div>
+
+                <div class="formula-card">
+                    <h5>Rotationsleistung</h5>
+                    <p class="formula">P = M·ω</p>
+                    <p class="description">Leistung = Drehmoment × Winkelgeschwindigkeit</p>
+                    
+                    <div class="calculator">
+                        <input type="number" id="rot_power_torque" placeholder="Drehmoment M (N·m)">
+                        <input type="number" id="rot_power_omega" placeholder="Winkelgeschwindigkeit ω (rad/s)">
+                        <button onclick="calculateRotationalPower()">Berechnen</button>
+                        <div class="result" id="rotational_power_result"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Vergleich Tab -->
+        <div id="vergleich" class="tab-content">
+            <h3>Vergleich Translation ↔ Rotation</h3>
+            
+            <div class="comparison-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Größe</th>
+                            <th>Translation</th>
+                            <th>Rotation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Weg/Winkel</td>
+                            <td>s (Meter, m)</td>
+                            <td>φ (Radiant, rad)</td>
+                        </tr>
+                        <tr>
+                            <td>Geschwindigkeit</td>
+                            <td>v = ds/dt (m/s)</td>
+                            <td>ω = dφ/dt (rad/s)</td>
+                        </tr>
+                        <tr>
+                            <td>Beschleunigung</td>
+                            <td>a = dv/dt (m/s²)</td>
+                            <td>α = dω/dt (rad/s²)</td>
+                        </tr>
+                        <tr>
+                            <td>Masse/Trägheit</td>
+                            <td>m (Kilogramm, kg)</td>
+                            <td>I = Σm·r² (kg·m²)</td>
+                        </tr>
+                        <tr>
+                            <td>Kraft/Drehmoment</td>
+                            <td>F = m·a (Newton, N)</td>
+                            <td>M = I·α (N·m)</td>
+                        </tr>
+                        <tr>
+                            <td>Impuls/Drehimpuls</td>
+                            <td>p = m·v (kg·m/s)</td>
+                            <td>L = I·ω (kg·m²/s)</td>
+                        </tr>
+                        <tr>
+                            <td>Energie</td>
+                            <td>E<sub>kin</sub> = ½·m·v² (Joule, J)</td>
+                            <td>E<sub>rot</sub> = ½·I·ω² (Joule, J)</td>
+                        </tr>
+                        <tr>
+                            <td>Arbeit</td>
+                            <td>W = F·s (Joule, J)</td>
+                            <td>W = M·φ (Joule, J)</td>
+                        </tr>
+                        <tr>
+                            <td>Leistung</td>
+                            <td>P = F·v (Watt, W)</td>
+                            <td>P = M·ω (Watt, W)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="formula-section">
+                <h4>Wichtige Beziehungen</h4>
+                <div class="formula-card">
+                    <h5>Bewegungsgleichungen</h5>
+                    <div class="side-by-side">
+                        <div>
+                            <p><strong>Translation</strong></p>
+                            <p>v = v₀ + a·t</p>
+                            <p>s = s₀ + v₀·t + ½·a·t²</p>
+                            <p>v² = v₀² + 2·a·s</p>
+                        </div>
+                        <div>
+                            <p><strong>Rotation</strong></p>
+                            <p>ω = ω₀ + α·t</p>
+                            <p>φ = φ₀ + ω₀·t + ½·α·t²</p>
+                            <p>ω² = ω₀² + 2·α·φ</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="formula-card">
+                    <h5>Erhaltungssätze</h5>
+                    <ul>
+                        <li><strong>Impulserhaltung:</strong> Σp = const (bei F<sub>ext</sub> = 0)</li>
+                        <li><strong>Drehimpulserhaltung:</strong> ΣL = const (bei M<sub>ext</sub> = 0)</li>
+                        <li><strong>Energieerhaltung:</strong> E<sub>ges</sub> = E<sub>kin</sub> + E<sub>pot</sub> + E<sub>rot</sub> = const</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>© 2025 Physik Formelsammlung | Alle Formeln und Berechnungen</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
