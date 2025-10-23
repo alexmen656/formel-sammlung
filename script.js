@@ -112,14 +112,14 @@ const searchIndex = [
     { title: 'Geschwindigkeit', formula: 'v = s/t', description: 'Durchschnittsgeschwindigkeit', tab: 'translation', keywords: ['geschwindigkeit', 'velocity', 'weg', 'zeit'] },
     { title: 'Beschleunigung', formula: 'a = Δv/Δt', description: 'Änderung der Geschwindigkeit', tab: 'translation', keywords: ['beschleunigung', 'acceleration'] },
     { title: 'Kraft', formula: 'F = m·a', description: 'Newton\'sches Bewegungsgesetz', tab: 'translation', keywords: ['kraft', 'force', 'newton', 'masse'] },
-    { title: 'Impuls', formula: 'p = m·v', description: 'Impuls = Masse × Geschwindigkeit', tab: 'translation', keywords: ['impuls', 'momentum'] },
+    { title: 'Impuls', formula: 'p = m·v', description: 'Impuls = Masse · Geschwindigkeit', tab: 'translation', keywords: ['impuls', 'momentum'] },
     { title: 'Kinetische Energie', formula: 'E_kin = ½·m·v²', description: 'Bewegungsenergie', tab: 'translation', keywords: ['energie', 'energy', 'kinetisch', 'kinetic'] },
-    { title: 'Arbeit', formula: 'W = F·s', description: 'Arbeit = Kraft × Weg', tab: 'translation', keywords: ['arbeit', 'work'] },
+    { title: 'Arbeit', formula: 'W = F·s', description: 'Arbeit = Kraft · Weg', tab: 'translation', keywords: ['arbeit', 'work'] },
     { title: 'Leistung', formula: 'P = W/t', description: 'Leistung = Arbeit / Zeit', tab: 'translation', keywords: ['leistung', 'power', 'watt'] },
     { title: 'Winkelgeschwindigkeit', formula: 'ω = φ/t', description: 'Rotation', tab: 'rotation', keywords: ['winkelgeschwindigkeit', 'angular', 'rotation', 'omega'] },
     { title: 'Winkelbeschleunigung', formula: 'α = Δω/Δt', description: 'Änderung der Winkelgeschwindigkeit', tab: 'rotation', keywords: ['winkelbeschleunigung', 'angular acceleration', 'alpha'] },
-    { title: 'Drehmoment', formula: 'M = I·α', description: 'Drehmoment = Trägheitsmoment × Winkelbeschleunigung', tab: 'rotation', keywords: ['drehmoment', 'torque', 'moment'] },
-    { title: 'Drehimpuls', formula: 'L = I·ω', description: 'Drehimpuls = Trägheitsmoment × Winkelgeschwindigkeit', tab: 'rotation', keywords: ['drehimpuls', 'angular momentum'] },
+    { title: 'Drehmoment', formula: 'M = I·α', description: 'Drehmoment = Trägheitsmoment · Winkelbeschleunigung', tab: 'rotation', keywords: ['drehmoment', 'torque', 'moment'] },
+    { title: 'Drehimpuls', formula: 'L = I·ω', description: 'Drehimpuls = Trägheitsmoment · Winkelgeschwindigkeit', tab: 'rotation', keywords: ['drehimpuls', 'angular momentum'] },
     { title: 'Trägheitsmoment', formula: 'I = Σm·r²', description: 'Widerstand gegen Drehbeschleunigung', tab: 'rotation', keywords: ['trägheitsmoment', 'moment of inertia', 'inertia'] },
     { title: 'Rotationsenergie', formula: 'E_rot = ½·I·ω²', description: 'Kinetische Energie der Rotation', tab: 'rotation', keywords: ['rotationsenergie', 'rotational energy'] },
     { title: 'Freier Fall', formula: 's = ½·g·t²', description: 'Bewegung unter Erdanziehung', tab: 'mechanik', keywords: ['fall', 'freier fall', 'gravitation', 'g'] },
@@ -1747,14 +1747,14 @@ function exportToPDF() {
             
             <div class="pdf-formula-item">
                 <h5>Geschwindigkeit</h5>
-                <div class="pdf-formula">v = s/t = ds/dt</div>
+                <div class="pdf-formula">v = s/t = Δs/Δt</div>
                 <p class="pdf-description">Durchschnittsgeschwindigkeit bzw. Momentangeschwindigkeit</p>
                 <p class="pdf-unit">Einheit: [v] = m/s</p>
             </div>
             
             <div class="pdf-formula-item">
                 <h5>Beschleunigung</h5>
-                <div class="pdf-formula">a = Δv/Δt = dv/dt</div>
+                <div class="pdf-formula">a = Δv/Δt</div>
                 <p class="pdf-description">Änderung der Geschwindigkeit pro Zeit</p>
                 <p class="pdf-unit">Einheit: [a] = m/s²</p>
             </div>
@@ -1772,14 +1772,14 @@ function exportToPDF() {
             <div class="pdf-formula-item">
                 <h5>Newton'sches Bewegungsgesetz</h5>
                 <div class="pdf-formula">F = m·a</div>
-                <p class="pdf-description">Kraft = Masse × Beschleunigung</p>
+                <p class="pdf-description">Kraft = Masse · Beschleunigung</p>
                 <p class="pdf-unit">Einheit: [F] = N (Newton) = kg·m/s²</p>
             </div>
             
             <div class="pdf-formula-item">
                 <h5>Impuls</h5>
                 <div class="pdf-formula">p = m·v</div>
-                <p class="pdf-description">Impuls = Masse × Geschwindigkeit</p>
+                <p class="pdf-description">Impuls = Masse · Geschwindigkeit</p>
                 <p class="pdf-unit">Einheit: [p] = kg·m/s</p>
             </div>
             
@@ -1795,7 +1795,7 @@ function exportToPDF() {
             <div class="pdf-formula-item">
                 <h5>Arbeit</h5>
                 <div class="pdf-formula">W = F·s·cos(α)</div>
-                <p class="pdf-description">Arbeit = Kraft × Weg × Kosinus des Winkels</p>
+                <p class="pdf-description">Arbeit = Kraft · Weg · Kosinus des Winkels</p>
                 <p class="pdf-unit">Einheit: [W] = J (Joule)</p>
             </div>
             
@@ -1815,14 +1815,14 @@ function exportToPDF() {
             
             <div class="pdf-formula-item">
                 <h5>Winkelgeschwindigkeit</h5>
-                <div class="pdf-formula">ω = φ/t = dφ/dt = 2π/T = 2π·f</div>
+                <div class="pdf-formula">ω = φ/t = Δφ/Δt = 2π/T = 2π·f</div>
                 <p class="pdf-description">Änderung des Drehwinkels pro Zeit</p>
                 <p class="pdf-unit">Einheit: [ω] = rad/s</p>
             </div>
             
             <div class="pdf-formula-item">
                 <h5>Winkelbeschleunigung</h5>
-                <div class="pdf-formula">α = Δω/Δt = dω/dt</div>
+                <div class="pdf-formula">α = Δω/Δt</div>
                 <p class="pdf-description">Änderung der Winkelgeschwindigkeit pro Zeit</p>
                 <p class="pdf-unit">Einheit: [α] = rad/s²</p>
             </div>
@@ -1853,14 +1853,14 @@ function exportToPDF() {
             <div class="pdf-formula-item">
                 <h5>Drehmoment</h5>
                 <div class="pdf-formula">M = I·α = F·r·sin(α)</div>
-                <p class="pdf-description">Drehmoment = Trägheitsmoment × Winkelbeschleunigung</p>
+                <p class="pdf-description">Drehmoment = Trägheitsmoment · Winkelbeschleunigung</p>
                 <p class="pdf-unit">Einheit: [M] = N·m</p>
             </div>
             
             <div class="pdf-formula-item">
                 <h5>Drehimpuls</h5>
                 <div class="pdf-formula">L = I·ω</div>
-                <p class="pdf-description">Drehimpuls = Trägheitsmoment × Winkelgeschwindigkeit</p>
+                <p class="pdf-description">Drehimpuls = Trägheitsmoment · Winkelgeschwindigkeit</p>
                 <p class="pdf-unit">Einheit: [L] = kg·m²/s</p>
             </div>
             
@@ -1874,14 +1874,14 @@ function exportToPDF() {
             <div class="pdf-formula-item">
                 <h5>Rotationsarbeit</h5>
                 <div class="pdf-formula">W = M·φ</div>
-                <p class="pdf-description">Arbeit = Drehmoment × Drehwinkel</p>
+                <p class="pdf-description">Arbeit = Drehmoment · Drehwinkel</p>
                 <p class="pdf-unit">Einheit: [W] = J</p>
             </div>
             
             <div class="pdf-formula-item">
                 <h5>Rotationsleistung</h5>
                 <div class="pdf-formula">P = M·ω</div>
-                <p class="pdf-description">Leistung = Drehmoment × Winkelgeschwindigkeit</p>
+                <p class="pdf-description">Leistung = Drehmoment · Winkelgeschwindigkeit</p>
                 <p class="pdf-unit">Einheit: [P] = W</p>
             </div>
         </div>
@@ -1980,7 +1980,7 @@ function exportToPDF() {
             <div class="pdf-formula-item">
                 <h5>Newton'sches Gesetz</h5>
                 <div class="pdf-formula">F = m·a</div>
-                <p class="pdf-description">Kraft = Masse × Beschleunigung</p>
+                <p class="pdf-description">Kraft = Masse · Beschleunigung</p>
                 <p class="pdf-unit">Einheit: [F] = N (Newton)</p>
             </div>
             
@@ -2024,7 +2024,7 @@ function exportToPDF() {
             <div class="pdf-formula-item">
                 <h5>Arbeit</h5>
                 <div class="pdf-formula">W = F·s</div>
-                <p class="pdf-description">Arbeit = Kraft × Weg (in Kraftrichtung)</p>
+                <p class="pdf-description">Arbeit = Kraft · Weg (in Kraftrichtung)</p>
                 <p class="pdf-unit">Einheit: [W] = J (Joule)</p>
             </div>
             

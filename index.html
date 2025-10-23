@@ -98,7 +98,7 @@
                 <h4>Grundlegende Größen</h4>
                 <div class="formula-card">
                     <h5>Geschwindigkeit</h5>
-                    <p class="formula">v = s/t = ds/dt</p>
+                    <p class="formula">v = s/t = Δs/Δt</p>
                     <p class="description">Durchschnittsgeschwindigkeit bzw. Momentangeschwindigkeit</p>
                     <p class="unit">Einheit: [v] = m/s</p>
                     
@@ -112,7 +112,7 @@
 
                 <div class="formula-card">
                     <h5>Beschleunigung</h5>
-                    <p class="formula">a = Δv/Δt = dv/dt</p>
+                    <p class="formula">a = Δv/Δt</p>
                     <p class="description">Änderung der Geschwindigkeit pro Zeit</p>
                     <p class="unit">Einheit: [a] = m/s²</p>
                     
@@ -145,7 +145,7 @@
                 <div class="formula-card">
                     <h5>Newton'sches Bewegungsgesetz</h5>
                     <p class="formula">F = m·a</p>
-                    <p class="description">Kraft = Masse × Beschleunigung</p>
+                    <p class="description">Kraft = Masse · Beschleunigung</p>
                     
                     <div class="calculator">
                         <input type="number" id="trans_mass" placeholder="Masse m (kg)">
@@ -158,7 +158,7 @@
                 <div class="formula-card">
                     <h5>Impuls</h5>
                     <p class="formula">p = m·v</p>
-                    <p class="description">Impuls = Masse × Geschwindigkeit</p>
+                    <p class="description">Impuls = Masse · Geschwindigkeit</p>
                     
                     <div class="calculator">
                         <input type="number" id="imp_mass" placeholder="Masse m (kg)">
@@ -184,7 +184,7 @@
                 <div class="formula-card">
                     <h5>Arbeit</h5>
                     <p class="formula">W = F·s·cos(α)</p>
-                    <p class="description">Arbeit = Kraft × Weg × cos(Winkel)</p>
+                    <p class="description">Arbeit = Kraft · Weg · cos(Winkel)</p>
                     
                     <div class="calculator">
                         <input type="number" id="work_force" placeholder="Kraft F (N)">
@@ -218,7 +218,7 @@
                 <h4>Grundlegende Größen</h4>
                 <div class="formula-card">
                     <h5>Winkelgeschwindigkeit</h5>
-                    <p class="formula">ω = φ/t = dφ/dt = 2π/T = 2πf</p>
+                    <p class="formula">ω = φ/t = Δφ/Δt = 2π/T = 2π·f</p>
                     <p class="description">Winkel pro Zeit, mit Periode T und Frequenz f</p>
                     
                     <div class="calculator">
@@ -231,7 +231,7 @@
 
                 <div class="formula-card">
                     <h5>Winkelbeschleunigung</h5>
-                    <p class="formula">α = Δω/Δt = dω/dt</p>
+                    <p class="formula">α = Δω/Δt</p>
                     <p class="description">Änderung der Winkelgeschwindigkeit pro Zeit</p>
                     
                     <div class="calculator">
@@ -288,8 +288,8 @@
 
                 <div class="formula-card">
                     <h5>Drehmoment</h5>
-                    <p class="formula">M = I·α = r×F</p>
-                    <p class="description">Drehmoment = Trägheitsmoment × Winkelbeschleunigung</p>
+                    <p class="formula">M = I·α</p>
+                    <p class="description">Drehmoment = Trägheitsmoment · Winkelbeschleunigung</p>
                     
                     <div class="calculator">
                         <input type="number" id="torque_inertia" placeholder="Trägheitsmoment I (kg·m²)">
@@ -301,8 +301,8 @@
 
                 <div class="formula-card">
                     <h5>Drehimpuls</h5>
-                    <p class="formula">L = I·ω = r×p</p>
-                    <p class="description">Drehimpuls = Trägheitsmoment × Winkelgeschwindigkeit</p>
+                    <p class="formula">L = I·ω</p>
+                    <p class="description">Drehimpuls = Trägheitsmoment · Winkelgeschwindigkeit</p>
                     
                     <div class="calculator">
                         <input type="number" id="ang_mom_inertia" placeholder="Trägheitsmoment I (kg·m²)">
@@ -328,7 +328,7 @@
                 <div class="formula-card">
                     <h5>Rotationsarbeit</h5>
                     <p class="formula">W = M·φ</p>
-                    <p class="description">Arbeit = Drehmoment × Winkel</p>
+                    <p class="description">Arbeit = Drehmoment · Winkel</p>
                     
                     <div class="calculator">
                         <input type="number" id="rot_work_torque" placeholder="Drehmoment M (N·m)">
@@ -341,7 +341,7 @@
                 <div class="formula-card">
                     <h5>Rotationsleistung</h5>
                     <p class="formula">P = M·ω</p>
-                    <p class="description">Leistung = Drehmoment × Winkelgeschwindigkeit</p>
+                    <p class="description">Leistung = Drehmoment · Winkelgeschwindigkeit</p>
                     
                     <div class="calculator">
                         <input type="number" id="rot_power_torque" placeholder="Drehmoment M (N·m)">
@@ -511,7 +511,7 @@
                 <div class="formula-card">
                     <h5>Newton'sches Grundgesetz</h5>
                     <p class="formula">F = m · a</p>
-                    <p class="description">Kraft = Masse × Beschleunigung</p>
+                    <p class="description">Kraft = Masse · Beschleunigung</p>
                     <p class="unit">Einheit: [F] = N (Newton), 1 N = 1 kg·m/s²</p>
                     
                     <div class="calculator">
@@ -538,7 +538,7 @@
                 <div class="formula-card">
                     <h5>Hookesches Gesetz (Federkraft)</h5>
                     <p class="formula">F = D · s</p>
-                    <p class="description">Kraft = Federkonstante × Auslenkung</p>
+                    <p class="description">Kraft = Federkonstante · Auslenkung</p>
                     <p class="unit">Einheit: [D] = N/m, [s] = m</p>
                     
                     <div class="calculator">
@@ -552,7 +552,7 @@
                 <div class="formula-card">
                     <h5>Reibungskraft</h5>
                     <p class="formula">F<sub>R</sub> = μ · F<sub>N</sub></p>
-                    <p class="description">Reibungskraft = Reibungszahl × Normalkraft</p>
+                    <p class="description">Reibungskraft = Reibungszahl · Normalkraft</p>
                     <p class="unit">μ ist dimensionslos</p>
                     <p class="info">Typische Werte: Holz auf Holz μ ≈ 0,4; Stahl auf Stahl μ ≈ 0,15</p>
                 </div>
@@ -589,7 +589,7 @@
                 <div class="formula-card">
                     <h5>Schweredruck in Flüssigkeiten</h5>
                     <p class="formula">p = ρ · g · h</p>
-                    <p class="description">Druck = Dichte × Erdbeschleunigung × Tiefe</p>
+                    <p class="description">Druck = Dichte · Erdbeschleunigung · Tiefe</p>
                     <p class="unit">Einheit: [p] = Pa</p>
                     <p class="info">Für Wasser: ρ = 1000 kg/m³</p>
                 </div>
@@ -597,7 +597,7 @@
                 <div class="formula-card">
                     <h5>Auftrieb</h5>
                     <p class="formula">F<sub>A</sub> = ρ<sub>Fl</sub> · V · g</p>
-                    <p class="description">Auftriebskraft = Dichte der Flüssigkeit × Volumen × g</p>
+                    <p class="description">Auftriebskraft = Dichte der Flüssigkeit · Volumen · g</p>
                     <p class="unit">Einheit: [F<sub>A</sub>] = N</p>
                 </div>
             </div>
@@ -613,7 +613,7 @@
                 <div class="formula-card">
                     <h5>Arbeit</h5>
                     <p class="formula">W = F · s</p>
-                    <p class="description">Arbeit = Kraft × Weg (wenn F parallel zu s)</p>
+                    <p class="description">Arbeit = Kraft · Weg (wenn F parallel zu s)</p>
                     <p class="unit">Einheit: [W] = J (Joule), 1 J = 1 N·m = 1 kg·m²/s²</p>
                     
                     <div class="calculator">
@@ -715,7 +715,7 @@
                 <div class="formula-card">
                     <h5>Wärmekapazität</h5>
                     <p class="formula">Q = c · m · ΔT</p>
-                    <p class="description">Wärmemenge = spezifische Wärmekapazität × Masse × Temperaturänderung</p>
+                    <p class="description">Wärmemenge = spezifische Wärmekapazität · Masse · Temperaturänderung</p>
                     <p class="unit">Einheit: [Q] = J, [c] = J/(kg·K)</p>
                     <p class="info">Für Wasser: c = 4180 J/(kg·K)</p>
                     
@@ -731,7 +731,7 @@
                 <div class="formula-card">
                     <h5>Schmelz- und Verdampfungswärme</h5>
                     <p class="formula">Q = q · m</p>
-                    <p class="description">Wärmemenge = spezifische Schmelz-/Verdampfungswärme × Masse</p>
+                    <p class="description">Wärmemenge = spezifische Schmelz-/Verdampfungswärme · Masse</p>
                     <p class="unit">Einheit: [Q] = J, [q] = J/kg</p>
                     <p class="info">Wasser: q<sub>Schmelz</sub> = 334.000 J/kg, q<sub>Verdampf</sub> = 2.260.000 J/kg</p>
                 </div>
@@ -747,7 +747,7 @@
                 <div class="formula-card">
                     <h5>Wärmeausdehnung (linear)</h5>
                     <p class="formula">Δl = α · l₀ · ΔT</p>
-                    <p class="description">Längenänderung = Ausdehnungskoeffizient × Ausgangslänge × Temperaturänderung</p>
+                    <p class="description">Längenänderung = Ausdehnungskoeffizient · Ausgangslänge · Temperaturänderung</p>
                     <p class="unit">Einheit: [α] = 1/K</p>
                 </div>
             </div>
