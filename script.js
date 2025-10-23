@@ -1463,3 +1463,269 @@ function updateHeatGraph() {
     charts.heat.data.datasets[0].data = data;
     charts.heat.update();
 }
+
+// ============================================
+// UNIT CONVERTER FUNCTIONS
+// ============================================
+
+// Length Converter
+const lengthFactors = {
+    'm': 1,
+    'km': 1000,
+    'dm': 0.1,
+    'cm': 0.01,
+    'mm': 0.001,
+    'μm': 1e-6,
+    'nm': 1e-9
+};
+
+function convertLength() {
+    const input = parseFloat(document.getElementById('length_input').value);
+    const from = document.getElementById('length_from').value;
+    const to = document.getElementById('length_to').value;
+    
+    if (isNaN(input)) {
+        document.getElementById('length_output').value = '';
+        return;
+    }
+    
+    // Convert to meters (base unit), then to target unit
+    const meters = input * lengthFactors[from];
+    const result = meters / lengthFactors[to];
+    
+    document.getElementById('length_output').value = formatNumber(result);
+}
+
+// Time Converter
+const timeFactors = {
+    's': 1,
+    'min': 60,
+    'h': 3600,
+    'd': 86400,
+    'ms': 0.001,
+    'μs': 1e-6
+};
+
+function convertTime() {
+    const input = parseFloat(document.getElementById('time_input').value);
+    const from = document.getElementById('time_from').value;
+    const to = document.getElementById('time_to').value;
+    
+    if (isNaN(input)) {
+        document.getElementById('time_output').value = '';
+        return;
+    }
+    
+    const seconds = input * timeFactors[from];
+    const result = seconds / timeFactors[to];
+    
+    document.getElementById('time_output').value = formatNumber(result);
+}
+
+// Mass Converter
+const massFactors = {
+    'kg': 1,
+    'g': 0.001,
+    'mg': 1e-6,
+    't': 1000,
+    'μg': 1e-9
+};
+
+function convertMass() {
+    const input = parseFloat(document.getElementById('mass_input').value);
+    const from = document.getElementById('mass_from').value;
+    const to = document.getElementById('mass_to').value;
+    
+    if (isNaN(input)) {
+        document.getElementById('mass_output').value = '';
+        return;
+    }
+    
+    const kilograms = input * massFactors[from];
+    const result = kilograms / massFactors[to];
+    
+    document.getElementById('mass_output').value = formatNumber(result);
+}
+
+// Velocity Converter
+const velocityFactors = {
+    'm/s': 1,
+    'km/h': 1/3.6,
+    'km/s': 1000,
+    'cm/s': 0.01
+};
+
+function convertVelocity() {
+    const input = parseFloat(document.getElementById('velocity_input').value);
+    const from = document.getElementById('velocity_from').value;
+    const to = document.getElementById('velocity_to').value;
+    
+    if (isNaN(input)) {
+        document.getElementById('velocity_output').value = '';
+        return;
+    }
+    
+    const metersPerSecond = input * velocityFactors[from];
+    const result = metersPerSecond / velocityFactors[to];
+    
+    document.getElementById('velocity_output').value = formatNumber(result);
+}
+
+// Area Converter
+const areaFactors = {
+    'm²': 1,
+    'km²': 1e6,
+    'cm²': 1e-4,
+    'mm²': 1e-6,
+    'ha': 10000,
+    'a': 100
+};
+
+function convertArea() {
+    const input = parseFloat(document.getElementById('area_input').value);
+    const from = document.getElementById('area_from').value;
+    const to = document.getElementById('area_to').value;
+    
+    if (isNaN(input)) {
+        document.getElementById('area_output').value = '';
+        return;
+    }
+    
+    const squareMeters = input * areaFactors[from];
+    const result = squareMeters / areaFactors[to];
+    
+    document.getElementById('area_output').value = formatNumber(result);
+}
+
+// Volume Converter
+const volumeFactors = {
+    'm³': 1,
+    'dm³': 0.001,
+    'cm³': 1e-6,
+    'mm³': 1e-9,
+    'l': 0.001,
+    'ml': 1e-6
+};
+
+function convertVolume() {
+    const input = parseFloat(document.getElementById('volume_input').value);
+    const from = document.getElementById('volume_from').value;
+    const to = document.getElementById('volume_to').value;
+    
+    if (isNaN(input)) {
+        document.getElementById('volume_output').value = '';
+        return;
+    }
+    
+    const cubicMeters = input * volumeFactors[from];
+    const result = cubicMeters / volumeFactors[to];
+    
+    document.getElementById('volume_output').value = formatNumber(result);
+}
+
+// Temperature Converter
+function convertTemperature() {
+    const input = parseFloat(document.getElementById('temp_input').value);
+    const from = document.getElementById('temp_from').value;
+    const to = document.getElementById('temp_to').value;
+    
+    if (isNaN(input)) {
+        document.getElementById('temp_output').value = '';
+        return;
+    }
+    
+    let celsius;
+    
+    // Convert to Celsius first
+    switch(from) {
+        case '°C':
+            celsius = input;
+            break;
+        case 'K':
+            celsius = input - 273.15;
+            break;
+        case '°F':
+            celsius = (input - 32) * 5/9;
+            break;
+    }
+    
+    // Convert from Celsius to target
+    let result;
+    switch(to) {
+        case '°C':
+            result = celsius;
+            break;
+        case 'K':
+            result = celsius + 273.15;
+            break;
+        case '°F':
+            result = celsius * 9/5 + 32;
+            break;
+    }
+    
+    document.getElementById('temp_output').value = formatNumber(result);
+}
+
+// Energy Converter
+const energyFactors = {
+    'J': 1,
+    'kJ': 1000,
+    'MJ': 1e6,
+    'Ws': 1,
+    'kWh': 3.6e6,
+    'cal': 4.184,
+    'kcal': 4184
+};
+
+function convertEnergy() {
+    const input = parseFloat(document.getElementById('energy_input').value);
+    const from = document.getElementById('energy_from').value;
+    const to = document.getElementById('energy_to').value;
+    
+    if (isNaN(input)) {
+        document.getElementById('energy_output').value = '';
+        return;
+    }
+    
+    const joules = input * energyFactors[from];
+    const result = joules / energyFactors[to];
+    
+    document.getElementById('energy_output').value = formatNumber(result);
+}
+
+// Pressure Converter
+const pressureFactors = {
+    'Pa': 1,
+    'kPa': 1000,
+    'bar': 100000,
+    'mbar': 100,
+    'atm': 101325,
+    'mmHg': 133.322
+};
+
+function convertPressure() {
+    const input = parseFloat(document.getElementById('pressure_input').value);
+    const from = document.getElementById('pressure_from').value;
+    const to = document.getElementById('pressure_to').value;
+    
+    if (isNaN(input)) {
+        document.getElementById('pressure_output').value = '';
+        return;
+    }
+    
+    const pascals = input * pressureFactors[from];
+    const result = pascals / pressureFactors[to];
+    
+    document.getElementById('pressure_output').value = formatNumber(result);
+}
+
+// Helper function to format numbers nicely
+function formatNumber(num) {
+    if (Math.abs(num) < 0.001 || Math.abs(num) > 1e6) {
+        return num.toExponential(6);
+    } else if (Math.abs(num) < 1) {
+        return num.toFixed(8).replace(/\.?0+$/, '');
+    } else {
+        return num.toFixed(6).replace(/\.?0+$/, '');
+    }
+}

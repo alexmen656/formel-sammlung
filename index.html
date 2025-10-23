@@ -81,6 +81,7 @@
             <button class="tab-button" onclick="showTab('mechanik')" data-tab="mechanik">Mechanik</button>
             <button class="tab-button" onclick="showTab('energie')" data-tab="energie">Energie & Wärme</button>
             <button class="tab-button" onclick="showTab('optik')" data-tab="optik">Optik</button>
+            <button class="tab-button" onclick="showTab('einheiten')" data-tab="einheiten">Einheiten</button>
             <button class="tab-button" onclick="showTab('graphen')" data-tab="graphen">Graphen</button>
         </nav>
 
@@ -1000,6 +1001,293 @@
                     <p class="description">Brechkraft = 1 / Brennweite</p>
                     <p class="unit">Einheit: [D] = dpt (Dioptrie), 1 dpt = 1/m</p>
                     <p class="info">f in Meter einsetzen!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Einheitenumrechner Tab -->
+        <div id="einheiten" class="tab-content">
+            <h3>Einheitenumrechner</h3>
+            
+            <div class="formula-section">
+                <h4>Längeneinheiten</h4>
+                <div class="formula-card">
+                    <h5>Länge umrechnen</h5>
+                    <p class="description">Umrechnung zwischen verschiedenen Längeneinheiten</p>
+                    
+                    <div class="calculator converter">
+                        <div class="converter-row">
+                            <input type="number" id="length_input" placeholder="Wert" oninput="convertLength()">
+                            <select id="length_from" onchange="convertLength()">
+                                <option value="m">Meter (m)</option>
+                                <option value="km">Kilometer (km)</option>
+                                <option value="dm">Dezimeter (dm)</option>
+                                <option value="cm">Zentimeter (cm)</option>
+                                <option value="mm">Millimeter (mm)</option>
+                                <option value="μm">Mikrometer (μm)</option>
+                                <option value="nm">Nanometer (nm)</option>
+                            </select>
+                        </div>
+                        <div class="converter-arrow">→</div>
+                        <div class="converter-row">
+                            <input type="text" id="length_output" placeholder="Ergebnis" readonly>
+                            <select id="length_to" onchange="convertLength()">
+                                <option value="m">Meter (m)</option>
+                                <option value="km">Kilometer (km)</option>
+                                <option value="dm">Dezimeter (dm)</option>
+                                <option value="cm" selected>Zentimeter (cm)</option>
+                                <option value="mm">Millimeter (mm)</option>
+                                <option value="μm">Mikrometer (μm)</option>
+                                <option value="nm">Nanometer (nm)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <h4>Zeiteinheiten</h4>
+                <div class="formula-card">
+                    <h5>Zeit umrechnen</h5>
+                    <p class="description">Umrechnung zwischen verschiedenen Zeiteinheiten</p>
+                    
+                    <div class="calculator converter">
+                        <div class="converter-row">
+                            <input type="number" id="time_input" placeholder="Wert" oninput="convertTime()">
+                            <select id="time_from" onchange="convertTime()">
+                                <option value="s">Sekunden (s)</option>
+                                <option value="min">Minuten (min)</option>
+                                <option value="h">Stunden (h)</option>
+                                <option value="d">Tage (d)</option>
+                                <option value="ms">Millisekunden (ms)</option>
+                                <option value="μs">Mikrosekunden (μs)</option>
+                            </select>
+                        </div>
+                        <div class="converter-arrow">→</div>
+                        <div class="converter-row">
+                            <input type="text" id="time_output" placeholder="Ergebnis" readonly>
+                            <select id="time_to" onchange="convertTime()">
+                                <option value="s">Sekunden (s)</option>
+                                <option value="min" selected>Minuten (min)</option>
+                                <option value="h">Stunden (h)</option>
+                                <option value="d">Tage (d)</option>
+                                <option value="ms">Millisekunden (ms)</option>
+                                <option value="μs">Mikrosekunden (μs)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <h4>Masseneinheiten</h4>
+                <div class="formula-card">
+                    <h5>Masse umrechnen</h5>
+                    <p class="description">Umrechnung zwischen verschiedenen Masseneinheiten</p>
+                    
+                    <div class="calculator converter">
+                        <div class="converter-row">
+                            <input type="number" id="mass_input" placeholder="Wert" oninput="convertMass()">
+                            <select id="mass_from" onchange="convertMass()">
+                                <option value="kg">Kilogramm (kg)</option>
+                                <option value="g">Gramm (g)</option>
+                                <option value="mg">Milligramm (mg)</option>
+                                <option value="t">Tonne (t)</option>
+                                <option value="μg">Mikrogramm (μg)</option>
+                            </select>
+                        </div>
+                        <div class="converter-arrow">→</div>
+                        <div class="converter-row">
+                            <input type="text" id="mass_output" placeholder="Ergebnis" readonly>
+                            <select id="mass_to" onchange="convertMass()">
+                                <option value="kg">Kilogramm (kg)</option>
+                                <option value="g" selected>Gramm (g)</option>
+                                <option value="mg">Milligramm (mg)</option>
+                                <option value="t">Tonne (t)</option>
+                                <option value="μg">Mikrogramm (μg)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <h4>Geschwindigkeitseinheiten</h4>
+                <div class="formula-card">
+                    <h5>Geschwindigkeit umrechnen</h5>
+                    <p class="description">Umrechnung zwischen verschiedenen Geschwindigkeitseinheiten</p>
+                    
+                    <div class="calculator converter">
+                        <div class="converter-row">
+                            <input type="number" id="velocity_input" placeholder="Wert" oninput="convertVelocity()">
+                            <select id="velocity_from" onchange="convertVelocity()">
+                                <option value="m/s">Meter/Sekunde (m/s)</option>
+                                <option value="km/h">Kilometer/Stunde (km/h)</option>
+                                <option value="km/s">Kilometer/Sekunde (km/s)</option>
+                                <option value="cm/s">Zentimeter/Sekunde (cm/s)</option>
+                            </select>
+                        </div>
+                        <div class="converter-arrow">→</div>
+                        <div class="converter-row">
+                            <input type="text" id="velocity_output" placeholder="Ergebnis" readonly>
+                            <select id="velocity_to" onchange="convertVelocity()">
+                                <option value="m/s">Meter/Sekunde (m/s)</option>
+                                <option value="km/h" selected>Kilometer/Stunde (km/h)</option>
+                                <option value="km/s">Kilometer/Sekunde (km/s)</option>
+                                <option value="cm/s">Zentimeter/Sekunde (cm/s)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <h4>Flächeneinheiten</h4>
+                <div class="formula-card">
+                    <h5>Fläche umrechnen</h5>
+                    <p class="description">Umrechnung zwischen verschiedenen Flächeneinheiten</p>
+                    
+                    <div class="calculator converter">
+                        <div class="converter-row">
+                            <input type="number" id="area_input" placeholder="Wert" oninput="convertArea()">
+                            <select id="area_from" onchange="convertArea()">
+                                <option value="m²">Quadratmeter (m²)</option>
+                                <option value="km²">Quadratkilometer (km²)</option>
+                                <option value="cm²">Quadratzentimeter (cm²)</option>
+                                <option value="mm²">Quadratmillimeter (mm²)</option>
+                                <option value="ha">Hektar (ha)</option>
+                                <option value="a">Ar (a)</option>
+                            </select>
+                        </div>
+                        <div class="converter-arrow">→</div>
+                        <div class="converter-row">
+                            <input type="text" id="area_output" placeholder="Ergebnis" readonly>
+                            <select id="area_to" onchange="convertArea()">
+                                <option value="m²">Quadratmeter (m²)</option>
+                                <option value="km²">Quadratkilometer (km²)</option>
+                                <option value="cm²" selected>Quadratzentimeter (cm²)</option>
+                                <option value="mm²">Quadratmillimeter (mm²)</option>
+                                <option value="ha">Hektar (ha)</option>
+                                <option value="a">Ar (a)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <h4>Volumeneinheiten</h4>
+                <div class="formula-card">
+                    <h5>Volumen umrechnen</h5>
+                    <p class="description">Umrechnung zwischen verschiedenen Volumeneinheiten</p>
+                    
+                    <div class="calculator converter">
+                        <div class="converter-row">
+                            <input type="number" id="volume_input" placeholder="Wert" oninput="convertVolume()">
+                            <select id="volume_from" onchange="convertVolume()">
+                                <option value="m³">Kubikmeter (m³)</option>
+                                <option value="dm³">Kubikdezimeter (dm³)</option>
+                                <option value="cm³">Kubikzentimeter (cm³)</option>
+                                <option value="mm³">Kubikmillimeter (mm³)</option>
+                                <option value="l">Liter (l)</option>
+                                <option value="ml">Milliliter (ml)</option>
+                            </select>
+                        </div>
+                        <div class="converter-arrow">→</div>
+                        <div class="converter-row">
+                            <input type="text" id="volume_output" placeholder="Ergebnis" readonly>
+                            <select id="volume_to" onchange="convertVolume()">
+                                <option value="m³">Kubikmeter (m³)</option>
+                                <option value="dm³">Kubikdezimeter (dm³)</option>
+                                <option value="cm³">Kubikzentimeter (cm³)</option>
+                                <option value="mm³">Kubikmillimeter (mm³)</option>
+                                <option value="l" selected>Liter (l)</option>
+                                <option value="ml">Milliliter (ml)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <h4>Temperatureinheiten</h4>
+                <div class="formula-card">
+                    <h5>Temperatur umrechnen</h5>
+                    <p class="description">Umrechnung zwischen verschiedenen Temperatureinheiten</p>
+                    
+                    <div class="calculator converter">
+                        <div class="converter-row">
+                            <input type="number" id="temp_input" placeholder="Wert" oninput="convertTemperature()">
+                            <select id="temp_from" onchange="convertTemperature()">
+                                <option value="°C">Celsius (°C)</option>
+                                <option value="K">Kelvin (K)</option>
+                                <option value="°F">Fahrenheit (°F)</option>
+                            </select>
+                        </div>
+                        <div class="converter-arrow">→</div>
+                        <div class="converter-row">
+                            <input type="text" id="temp_output" placeholder="Ergebnis" readonly>
+                            <select id="temp_to" onchange="convertTemperature()">
+                                <option value="°C">Celsius (°C)</option>
+                                <option value="K" selected>Kelvin (K)</option>
+                                <option value="°F">Fahrenheit (°F)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <h4>Energieeinheiten</h4>
+                <div class="formula-card">
+                    <h5>Energie umrechnen</h5>
+                    <p class="description">Umrechnung zwischen verschiedenen Energieeinheiten</p>
+                    
+                    <div class="calculator converter">
+                        <div class="converter-row">
+                            <input type="number" id="energy_input" placeholder="Wert" oninput="convertEnergy()">
+                            <select id="energy_from" onchange="convertEnergy()">
+                                <option value="J">Joule (J)</option>
+                                <option value="kJ">Kilojoule (kJ)</option>
+                                <option value="MJ">Megajoule (MJ)</option>
+                                <option value="Ws">Wattsekunde (Ws)</option>
+                                <option value="kWh">Kilowattstunde (kWh)</option>
+                                <option value="cal">Kalorie (cal)</option>
+                                <option value="kcal">Kilokalorie (kcal)</option>
+                            </select>
+                        </div>
+                        <div class="converter-arrow">→</div>
+                        <div class="converter-row">
+                            <input type="text" id="energy_output" placeholder="Ergebnis" readonly>
+                            <select id="energy_to" onchange="convertEnergy()">
+                                <option value="J">Joule (J)</option>
+                                <option value="kJ" selected>Kilojoule (kJ)</option>
+                                <option value="MJ">Megajoule (MJ)</option>
+                                <option value="Ws">Wattsekunde (Ws)</option>
+                                <option value="kWh">Kilowattstunde (kWh)</option>
+                                <option value="cal">Kalorie (cal)</option>
+                                <option value="kcal">Kilokalorie (kcal)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <h4>Druckeinheiten</h4>
+                <div class="formula-card">
+                    <h5>Druck umrechnen</h5>
+                    <p class="description">Umrechnung zwischen verschiedenen Druckeinheiten</p>
+                    
+                    <div class="calculator converter">
+                        <div class="converter-row">
+                            <input type="number" id="pressure_input" placeholder="Wert" oninput="convertPressure()">
+                            <select id="pressure_from" onchange="convertPressure()">
+                                <option value="Pa">Pascal (Pa)</option>
+                                <option value="kPa">Kilopascal (kPa)</option>
+                                <option value="bar">Bar (bar)</option>
+                                <option value="mbar">Millibar (mbar)</option>
+                                <option value="atm">Atmosphäre (atm)</option>
+                                <option value="mmHg">Millimeter Quecksilbersäule (mmHg)</option>
+                            </select>
+                        </div>
+                        <div class="converter-arrow">→</div>
+                        <div class="converter-row">
+                            <input type="text" id="pressure_output" placeholder="Ergebnis" readonly>
+                            <select id="pressure_to" onchange="convertPressure()">
+                                <option value="Pa">Pascal (Pa)</option>
+                                <option value="kPa">Kilopascal (kPa)</option>
+                                <option value="bar" selected>Bar (bar)</option>
+                                <option value="mbar">Millibar (mbar)</option>
+                                <option value="atm">Atmosphäre (atm)</option>
+                                <option value="mmHg">Millimeter Quecksilbersäule (mmHg)</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

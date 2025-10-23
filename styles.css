@@ -696,4 +696,89 @@ footer {
         height: 300px;
         padding: 12px;
     }
+    
+    .converter-row {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .converter-row input,
+    .converter-row select {
+        width: 100%;
+    }
+}
+
+/* Unit Converter Styles */
+.converter {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: stretch;
+}
+
+.converter-row {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex: 1;
+}
+
+.converter-row input {
+    flex: 1;
+    padding: 12px 16px;
+    border: 2px solid #e5e5e7;
+    border-radius: 10px;
+    font-size: 1em;
+    transition: all 0.3s ease;
+    min-width: 0;
+}
+
+.converter-row input:focus {
+    outline: none;
+    border-color: #0071e3;
+    box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.1);
+}
+
+.converter-row input[readonly] {
+    background: linear-gradient(135deg, #f0f7ff 0%, #e6f2ff 100%);
+    color: #0071e3;
+    font-weight: 600;
+    cursor: default;
+}
+
+.converter-row select {
+    flex: 1;
+    padding: 12px 16px;
+    border: 2px solid #e5e5e7;
+    border-radius: 10px;
+    font-size: 0.95em;
+    background: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 6L11 1' stroke='%231d1d1f' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 36px;
+    min-width: 0;
+}
+
+.converter-row select:hover {
+    border-color: #0071e3;
+    background-color: #f9fbfd;
+}
+
+.converter-row select:focus {
+    outline: none;
+    border-color: #0071e3;
+    box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.1);
+}
+
+.converter-arrow {
+    font-size: 1.5em;
+    color: #0071e3;
+    font-weight: 600;
+    text-align: center;
+    padding: 0 8px;
+    user-select: none;
 }
