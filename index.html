@@ -12,16 +12,76 @@
         <header>
             <h1>Physik Formelsammlung</h1>
             <h2>Translation & Rotation</h2>
+            
+            <div class="header-controls">
+                <div class="search-container">
+                    <input type="text" id="globalSearch" placeholder="Formel oder Begriff suchen..." oninput="performSearch(this.value)">
+                    <span class="search-icon">⌘</span>
+                </div>
+                
+                <div class="unit-selector">
+                    <button class="unit-button" onclick="toggleUnitMenu()">
+                        Einheiten
+                        <span class="unit-indicator" id="unitIndicator">SI</span>
+                    </button>
+                    <div class="unit-menu" id="unitMenu">
+                        <h4>Einheitensystem</h4>
+                        <div class="unit-option">
+                            <label>
+                                <strong>Länge:</strong>
+                                <select id="unit_length" onchange="updateUnitSystem()">
+                                    <option value="m" selected>Meter (m)</option>
+                                    <option value="km">Kilometer (km)</option>
+                                    <option value="cm">Zentimeter (cm)</option>
+                                    <option value="mm">Millimeter (mm)</option>
+                                </select>
+                            </label>
+                        </div>
+                        <div class="unit-option">
+                            <label>
+                                <strong>Zeit:</strong>
+                                <select id="unit_time" onchange="updateUnitSystem()">
+                                    <option value="s" selected>Sekunden (s)</option>
+                                    <option value="min">Minuten (min)</option>
+                                    <option value="h">Stunden (h)</option>
+                                </select>
+                            </label>
+                        </div>
+                        <div class="unit-option">
+                            <label>
+                                <strong>Masse:</strong>
+                                <select id="unit_mass" onchange="updateUnitSystem()">
+                                    <option value="kg" selected>Kilogramm (kg)</option>
+                                    <option value="g">Gramm (g)</option>
+                                    <option value="t">Tonnen (t)</option>
+                                </select>
+                            </label>
+                        </div>
+                        <div class="unit-option">
+                            <label>
+                                <strong>Geschwindigkeit:</strong>
+                                <select id="unit_velocity" onchange="updateUnitSystem()">
+                                    <option value="m/s" selected>m/s</option>
+                                    <option value="km/h">km/h</option>
+                                </select>
+                            </label>
+                        </div>
+                        <button class="reset-units" onclick="resetUnits()">Auf SI zurücksetzen</button>
+                    </div>
+                </div>
+            </div>
         </header>
 
+        <div class="search-results" id="searchResults"></div>
+
         <nav class="tabs">
-            <button class="tab-button active" onclick="showTab('translation')">Translation</button>
-            <button class="tab-button" onclick="showTab('rotation')">Rotation</button>
-            <button class="tab-button" onclick="showTab('vergleich')">Vergleich</button>
-            <button class="tab-button" onclick="showTab('mechanik')">Mechanik</button>
-            <button class="tab-button" onclick="showTab('energie')">Energie & Wärme</button>
-            <button class="tab-button" onclick="showTab('optik')">Optik</button>
-            <button class="tab-button" onclick="showTab('graphen')">Graphen</button>
+            <button class="tab-button active" onclick="showTab('translation')" data-tab="translation">Translation</button>
+            <button class="tab-button" onclick="showTab('rotation')" data-tab="rotation">Rotation</button>
+            <button class="tab-button" onclick="showTab('vergleich')" data-tab="vergleich">Vergleich</button>
+            <button class="tab-button" onclick="showTab('mechanik')" data-tab="mechanik">Mechanik</button>
+            <button class="tab-button" onclick="showTab('energie')" data-tab="energie">Energie & Wärme</button>
+            <button class="tab-button" onclick="showTab('optik')" data-tab="optik">Optik</button>
+            <button class="tab-button" onclick="showTab('graphen')" data-tab="graphen">Graphen</button>
         </nav>
 
         <!-- Translation Tab -->
@@ -945,7 +1005,7 @@
         </div>
 
         <footer>
-            <p>Physik Formelsammlung | AHS Gymnasium Österreich (5./6. Klasse)</p>
+            <p>© 2025 Alex Polan, Daubi. Physik Formelsammlung | Gymnasium Neusiedl</p>
         </footer>
     </div>
 

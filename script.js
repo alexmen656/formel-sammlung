@@ -1,3 +1,35 @@
+// Unit System
+let unitSystem = {
+    length: 'm',
+    time: 's',
+    mass: 'kg',
+    velocity: 'm/s'
+};
+
+// Unit conversion factors (to SI units)
+const unitConversions = {
+    length: {
+        'm': 1,
+        'km': 1000,
+        'cm': 0.01,
+        'mm': 0.001
+    },
+    time: {
+        's': 1,
+        'min': 60,
+        'h': 3600
+    },
+    mass: {
+        'kg': 1,
+        'g': 0.001,
+        't': 1000
+    },
+    velocity: {
+        'm/s': 1,
+        'km/h': 1/3.6
+    }
+};
+
 // Tab Switching
 function showTab(tabName) {
     // Hide all tabs
@@ -12,8 +44,224 @@ function showTab(tabName) {
     document.getElementById(tabName).classList.add('active');
     
     // Add active class to clicked button
-    event.target.classList.add('active');
+    const clickedButton = document.querySelector(`[data-tab="${tabName}"]`);
+    if (clickedButton) {
+        clickedButton.classList.add('active');
+    }
+    
+    // Hide search results
+    document.getElementById('searchResults').classList.remove('show');
 }
+
+// Unit System Functions
+function toggleUnitMenu() {
+    const menu = document.getElementById('unitMenu');
+    menu.classList.toggle('show');
+}
+
+function updateUnitSystem() {
+    unitSystem.length = document.getElementById('unit_length').value;
+    unitSystem.time = document.getElementById('unit_time').value;
+    unitSystem.mass = document.getElementById('unit_mass').value;
+    unitSystem.velocity = document.getElementById('unit_velocity').value;
+    
+    updateUnitIndicator();
+}
+
+function updateUnitIndicator() {
+    const indicator = document.getElementById('unitIndicator');
+    const isSI = unitSystem.length === 'm' && 
+                 unitSystem.time === 's' && 
+                 unitSystem.mass === 'kg' &&
+                 unitSystem.velocity === 'm/s';
+    
+    if (isSI) {
+        indicator.textContent = 'SI';
+        indicator.style.background = 'rgba(0, 113, 227, 0.8)';
+    } else {
+        indicator.textContent = 'Custom';
+        indicator.style.background = 'rgba(255, 149, 0, 0.8)';
+    }
+}
+
+function resetUnits() {
+    document.getElementById('unit_length').value = 'm';
+    document.getElementById('unit_time').value = 's';
+    document.getElementById('unit_mass').value = 'kg';
+    document.getElementById('unit_velocity').value = 'm/s';
+    updateUnitSystem();
+}
+
+// Unit Conversion Helper
+function convertToSI(value, unitType) {
+    const currentUnit = unitSystem[unitType];
+    return value * unitConversions[unitType][currentUnit];
+}
+
+function convertFromSI(value, unitType) {
+    const currentUnit = unitSystem[unitType];
+    return value / unitConversions[unitType][currentUnit];
+}
+
+function getUnitLabel(unitType) {
+    return unitSystem[unitType];
+}
+
+// Search Functionality
+const searchIndex = [
+    { title: 'Geschwindigkeit', formula: 'v = s/t', description: 'Durchschnittsgeschwindigkeit', tab: 'translation', keywords: ['geschwindigkeit', 'velocity', 'weg', 'zeit'] },
+    { title: 'Beschleunigung', formula: 'a = Δv/Δt', description: 'Änderung der Geschwindigkeit', tab: 'translation', keywords: ['beschleunigung', 'acceleration'] },
+    { title: 'Kraft', formula: 'F = m·a', description: 'Newton\'sches Bewegungsgesetz', tab: 'translation', keywords: ['kraft', 'force', 'newton', 'masse'] },
+    { title: 'Impuls', formula: 'p = m·v', description: 'Impuls = Masse × Geschwindigkeit', tab: 'translation', keywords: ['impuls', 'momentum'] },
+    { title: 'Kinetische Energie', formula: 'E_kin = ½·m·v²', description: 'Bewegungsenergie', tab: 'translation', keywords: ['energie', 'energy', 'kinetisch', 'kinetic'] },
+    { title: 'Arbeit', formula: 'W = F·s', description: 'Arbeit = Kraft × Weg', tab: 'translation', keywords: ['arbeit', 'work'] },
+    { title: 'Leistung', formula: 'P = W/t', description: 'Leistung = Arbeit / Zeit', tab: 'translation', keywords: ['leistung', 'power', 'watt'] },
+    { title: 'Winkelgeschwindigkeit', formula: 'ω = φ/t', description: 'Rotation', tab: 'rotation', keywords: ['winkelgeschwindigkeit', 'angular', 'rotation', 'omega'] },
+    { title: 'Winkelbeschleunigung', formula: 'α = Δω/Δt', description: 'Änderung der Winkelgeschwindigkeit', tab: 'rotation', keywords: ['winkelbeschleunigung', 'angular acceleration', 'alpha'] },
+    { title: 'Drehmoment', formula: 'M = I·α', description: 'Drehmoment = Trägheitsmoment × Winkelbeschleunigung', tab: 'rotation', keywords: ['drehmoment', 'torque', 'moment'] },
+    { title: 'Drehimpuls', formula: 'L = I·ω', description: 'Drehimpuls = Trägheitsmoment × Winkelgeschwindigkeit', tab: 'rotation', keywords: ['drehimpuls', 'angular momentum'] },
+    { title: 'Trägheitsmoment', formula: 'I = Σm·r²', description: 'Widerstand gegen Drehbeschleunigung', tab: 'rotation', keywords: ['trägheitsmoment', 'moment of inertia', 'inertia'] },
+    { title: 'Rotationsenergie', formula: 'E_rot = ½·I·ω²', description: 'Kinetische Energie der Rotation', tab: 'rotation', keywords: ['rotationsenergie', 'rotational energy'] },
+    { title: 'Freier Fall', formula: 's = ½·g·t²', description: 'Bewegung unter Erdanziehung', tab: 'mechanik', keywords: ['fall', 'freier fall', 'gravitation', 'g'] },
+    { title: 'Gewichtskraft', formula: 'F_G = m·g', description: 'Gewichtskraft auf der Erde', tab: 'mechanik', keywords: ['gewicht', 'weight', 'schwerkraft', 'gravitation'] },
+    { title: 'Federkraft', formula: 'F = D·s', description: 'Hookesches Gesetz', tab: 'mechanik', keywords: ['feder', 'spring', 'hooke'] },
+    { title: 'Dichte', formula: 'ρ = m/V', description: 'Dichte = Masse / Volumen', tab: 'mechanik', keywords: ['dichte', 'density', 'rho'] },
+    { title: 'Druck', formula: 'p = F/A', description: 'Druck = Kraft / Fläche', tab: 'mechanik', keywords: ['druck', 'pressure', 'pascal'] },
+    { title: 'Potentielle Energie', formula: 'E_pot = m·g·h', description: 'Lageenergie', tab: 'energie', keywords: ['potentielle energie', 'potential energy', 'lageenergie', 'höhe'] },
+    { title: 'Hubarbeit', formula: 'W_Hub = m·g·h', description: 'Arbeit zum Heben', tab: 'energie', keywords: ['hubarbeit', 'lifting work', 'heben'] },
+    { title: 'Spannenergie', formula: 'E_Spann = ½·D·s²', description: 'Energie einer gespannten Feder', tab: 'energie', keywords: ['spannenergie', 'elastic energy', 'feder'] },
+    { title: 'Wirkungsgrad', formula: 'η = W_nutz/W_zu', description: 'Verhältnis Nutzenergie zu zugeführter Energie', tab: 'energie', keywords: ['wirkungsgrad', 'efficiency', 'eta'] },
+    { title: 'Wärmekapazität', formula: 'Q = c·m·ΔT', description: 'Wärmemenge für Temperaturänderung', tab: 'energie', keywords: ['wärme', 'heat', 'temperatur', 'kapazität'] },
+    { title: 'Brechungsgesetz', formula: 'n₁·sin(α) = n₂·sin(β)', description: 'Snellius\'sches Brechungsgesetz', tab: 'optik', keywords: ['brechung', 'refraction', 'snellius', 'licht'] },
+    { title: 'Linsengleichung', formula: '1/f = 1/g + 1/b', description: 'Abbildung durch dünne Linse', tab: 'optik', keywords: ['linse', 'lens', 'brennweite', 'focal'] },
+    { title: 'Abbildungsmaßstab', formula: 'V = B/G = b/g', description: 'Vergrößerung', tab: 'optik', keywords: ['vergrößerung', 'magnification', 'abbildung'] }
+];
+
+function performSearch(query) {
+    const resultsDiv = document.getElementById('searchResults');
+    
+    if (!query || query.trim().length < 2) {
+        resultsDiv.classList.remove('show');
+        return;
+    }
+    
+    const searchTerm = query.toLowerCase().trim();
+    const results = searchIndex.filter(item => {
+        return item.title.toLowerCase().includes(searchTerm) ||
+               item.formula.toLowerCase().includes(searchTerm) ||
+               item.description.toLowerCase().includes(searchTerm) ||
+               item.keywords.some(keyword => keyword.includes(searchTerm));
+    });
+    
+    if (results.length === 0) {
+        resultsDiv.innerHTML = '<div class="no-results">Keine Ergebnisse gefunden</div>';
+        resultsDiv.classList.add('show');
+        return;
+    }
+    
+    let html = `<h4>${results.length} Ergebnis${results.length !== 1 ? 'se' : ''} gefunden</h4>`;
+    
+    results.forEach(result => {
+        html += `
+            <div class="search-result-item" onclick="goToFormula('${result.tab}')">
+                <h5>${result.title}</h5>
+                <p>${result.description}</p>
+                <div class="formula-preview">${result.formula}</div>
+            </div>
+        `;
+    });
+    
+    resultsDiv.innerHTML = html;
+    resultsDiv.classList.add('show');
+}
+
+function goToFormula(tabName) {
+    showTab(tabName);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Close unit menu when clicking outside
+document.addEventListener('click', function(event) {
+    const unitSelector = document.querySelector('.unit-selector');
+    const unitMenu = document.getElementById('unitMenu');
+    
+    if (unitSelector && !unitSelector.contains(event.target)) {
+        unitMenu.classList.remove('show');
+    }
+});
+
+// Update all placeholder texts when units change
+function updateAllPlaceholders() {
+    // Update placeholders for length inputs
+    const lengthInputs = [
+        'mech_s', 'trans_s', 'work_s', 'work_distance', 
+        'lift_h', 'pot_h', 'spring_s', 'spring_energy_s'
+    ];
+    lengthInputs.forEach(id => {
+        const input = document.getElementById(id);
+        if (input) {
+            const currentPlaceholder = input.placeholder;
+            const match = currentPlaceholder.match(/(.+)\((.*)\)/);
+            if (match) {
+                input.placeholder = `${match[1]}(${getUnitLabel('length')})`;
+            }
+        }
+    });
+    
+    // Update placeholders for time inputs
+    const timeInputs = [
+        'mech_t', 'trans_t', 'trans_time', 'unif_t', 'fall_t',
+        'power_t', 'power_time', 'rot_t', 'rot_dt'
+    ];
+    timeInputs.forEach(id => {
+        const input = document.getElementById(id);
+        if (input) {
+            const currentPlaceholder = input.placeholder;
+            const match = currentPlaceholder.match(/(.+)\((.*)\)/);
+            if (match) {
+                input.placeholder = `${match[1]}(${getUnitLabel('time')})`;
+            }
+        }
+    });
+    
+    // Update placeholders for mass inputs
+    const massInputs = [
+        'newton_m', 'weight_m', 'density_m', 'lift_m', 'pot_m',
+        'kin_m', 'kin_mass', 'imp_mass', 'trans_mass', 'heat_m'
+    ];
+    massInputs.forEach(id => {
+        const input = document.getElementById(id);
+        if (input) {
+            const currentPlaceholder = input.placeholder;
+            const match = currentPlaceholder.match(/(.+)\((.*)\)/);
+            if (match) {
+                input.placeholder = `${match[1]}(${getUnitLabel('mass')})`;
+            }
+        }
+    });
+    
+    // Update placeholders for velocity inputs
+    const velocityInputs = [
+        'unif_v', 'trans_dv', 'imp_vel', 'kin_vel'
+    ];
+    velocityInputs.forEach(id => {
+        const input = document.getElementById(id);
+        if (input) {
+            const currentPlaceholder = input.placeholder;
+            const match = currentPlaceholder.match(/(.+)\((.*)\)/);
+            if (match) {
+                input.placeholder = `${match[1]}(${getUnitLabel('velocity')})`;
+            }
+        }
+    });
+}
+
+// Override updateUnitSystem to also update placeholders
+const originalUpdateUnitSystem = updateUnitSystem;
+updateUnitSystem = function() {
+    originalUpdateUnitSystem();
+    updateAllPlaceholders();
+};
 
 // Helper function to display results
 function showResult(elementId, result) {
@@ -307,32 +555,49 @@ function calculateRotationalPower() {
 // Mechanik Calculations (5./6. Klasse AHS)
 
 function calculateBasicVelocity() {
-    const s = parseFloat(document.getElementById('mech_s').value);
-    const t = parseFloat(document.getElementById('mech_t').value);
+    const s_input = parseFloat(document.getElementById('mech_s').value);
+    const t_input = parseFloat(document.getElementById('mech_t').value);
     
-    if (isNaN(s) || isNaN(t) || t === 0) {
+    if (isNaN(s_input) || isNaN(t_input) || t_input === 0) {
         showResult('mech_velocity_result', 'Bitte gültige Werte eingeben!');
         return;
     }
     
-    const v = s / t;
-    const v_kmh = v * 3.6;
-    let result = `Geschwindigkeit: v = ${v.toFixed(3)} m/s<br>`;
+    // Convert to SI units
+    const s = convertToSI(s_input, 'length');
+    const t = convertToSI(t_input, 'time');
+    
+    // Calculate in SI
+    const v_si = s / t;
+    
+    // Convert back to selected units
+    const v_output = convertFromSI(v_si, 'velocity');
+    const v_kmh = v_si * 3.6;
+    
+    let result = `Geschwindigkeit: v = ${v_output.toFixed(3)} ${getUnitLabel('velocity')}<br>`;
     result += `Das entspricht: v = ${v_kmh.toFixed(2)} km/h`;
     showResult('mech_velocity_result', result);
 }
 
 function calculateUniformMotion() {
-    const v = parseFloat(document.getElementById('unif_v').value);
-    const t = parseFloat(document.getElementById('unif_t').value);
+    const v_input = parseFloat(document.getElementById('unif_v').value);
+    const t_input = parseFloat(document.getElementById('unif_t').value);
     
-    if (isNaN(v) || isNaN(t)) {
+    if (isNaN(v_input) || isNaN(t_input)) {
         showResult('unif_motion_result', 'Bitte gültige Werte eingeben!');
         return;
     }
     
-    const s = v * t;
-    showResult('unif_motion_result', `Zurückgelegter Weg: s = ${s.toFixed(3)} m`);
+    // Convert to SI
+    const v = convertToSI(v_input, 'velocity');
+    const t = convertToSI(t_input, 'time');
+    
+    // Calculate
+    const s_si = v * t;
+    
+    // Convert back
+    const s = convertFromSI(s_si, 'length');
+    showResult('unif_motion_result', `Zurückgelegter Weg: s = ${s.toFixed(3)} ${getUnitLabel('length')}`);
 }
 
 function calculateFreeFall() {
@@ -353,29 +618,35 @@ function calculateFreeFall() {
 }
 
 function calculateNewtonForce() {
-    const m = parseFloat(document.getElementById('newton_m').value);
-    const a = parseFloat(document.getElementById('newton_a').value);
+    const m_input = parseFloat(document.getElementById('newton_m').value);
+    const a_input = parseFloat(document.getElementById('newton_a').value);
     
-    if (isNaN(m) || isNaN(a)) {
+    if (isNaN(m_input) || isNaN(a_input)) {
         showResult('newton_result', 'Bitte gültige Werte eingeben!');
         return;
     }
+    
+    // Convert to SI
+    const m = convertToSI(m_input, 'mass');
+    // Acceleration is always in m/s² (derived unit)
+    const a = a_input / (unitConversions.length[unitSystem.length] / (unitConversions.time[unitSystem.time] ** 2));
     
     const F = m * a;
     showResult('newton_result', `Kraft: F = ${F.toFixed(3)} N`);
 }
 
 function calculateWeight() {
-    const m = parseFloat(document.getElementById('weight_m').value);
+    const m_input = parseFloat(document.getElementById('weight_m').value);
     
-    if (isNaN(m)) {
+    if (isNaN(m_input)) {
         showResult('weight_result', 'Bitte gültige Werte eingeben!');
         return;
     }
     
+    const m = convertToSI(m_input, 'mass');
     const g = 9.81;
     const F = m * g;
-    showResult('weight_result', `Gewichtskraft: F<sub>G</sub> = ${F.toFixed(2)} N`);
+    showResult('weight_result', `Gewichtskraft: F<sub>G</sub> = ${F.toFixed(2)} N (bei m = ${m_input} ${getUnitLabel('mass')})`);
 }
 
 function calculateSpringForce() {
