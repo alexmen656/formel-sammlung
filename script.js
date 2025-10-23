@@ -1729,3 +1729,415 @@ function formatNumber(num) {
         return num.toFixed(6).replace(/\.?0+$/, '');
     }
 }
+
+// ============================================
+// PDF EXPORT FUNCTION
+// ============================================
+
+function exportToPDF() {
+    const pdfContent = document.getElementById('pdfContent');
+    
+    // Build PDF content with all formulas (excluding calculators, converters, and graphs)
+    let htmlContent = `
+        <!-- Translation -->
+        <div class="pdf-section">
+            <h3>Translationsbewegung</h3>
+            
+            <h4>Grundlegende Größen</h4>
+            
+            <div class="pdf-formula-item">
+                <h5>Geschwindigkeit</h5>
+                <div class="pdf-formula">v = s/t = ds/dt</div>
+                <p class="pdf-description">Durchschnittsgeschwindigkeit bzw. Momentangeschwindigkeit</p>
+                <p class="pdf-unit">Einheit: [v] = m/s</p>
+            </div>
+            
+            <div class="pdf-formula-item">
+                <h5>Beschleunigung</h5>
+                <div class="pdf-formula">a = Δv/Δt = dv/dt</div>
+                <p class="pdf-description">Änderung der Geschwindigkeit pro Zeit</p>
+                <p class="pdf-unit">Einheit: [a] = m/s²</p>
+            </div>
+            
+            <div class="pdf-formula-item">
+                <h5>Gleichmäßig beschleunigte Bewegung</h5>
+                <div class="pdf-formula">v = v₀ + a·t</div>
+                <div class="pdf-formula">s = v₀·t + ½·a·t²</div>
+                <div class="pdf-formula">v² = v₀² + 2·a·s</div>
+                <p class="pdf-description">Bewegung mit konstanter Beschleunigung</p>
+            </div>
+            
+            <h4>Dynamik</h4>
+            
+            <div class="pdf-formula-item">
+                <h5>Newton'sches Bewegungsgesetz</h5>
+                <div class="pdf-formula">F = m·a</div>
+                <p class="pdf-description">Kraft = Masse × Beschleunigung</p>
+                <p class="pdf-unit">Einheit: [F] = N (Newton) = kg·m/s²</p>
+            </div>
+            
+            <div class="pdf-formula-item">
+                <h5>Impuls</h5>
+                <div class="pdf-formula">p = m·v</div>
+                <p class="pdf-description">Impuls = Masse × Geschwindigkeit</p>
+                <p class="pdf-unit">Einheit: [p] = kg·m/s</p>
+            </div>
+            
+            <h4>Energie und Arbeit</h4>
+            
+            <div class="pdf-formula-item">
+                <h5>Kinetische Energie</h5>
+                <div class="pdf-formula">E<sub>kin</sub> = ½·m·v²</div>
+                <p class="pdf-description">Bewegungsenergie</p>
+                <p class="pdf-unit">Einheit: [E] = J (Joule) = kg·m²/s²</p>
+            </div>
+            
+            <div class="pdf-formula-item">
+                <h5>Arbeit</h5>
+                <div class="pdf-formula">W = F·s·cos(α)</div>
+                <p class="pdf-description">Arbeit = Kraft × Weg × Kosinus des Winkels</p>
+                <p class="pdf-unit">Einheit: [W] = J (Joule)</p>
+            </div>
+            
+            <div class="pdf-formula-item">
+                <h5>Leistung</h5>
+                <div class="pdf-formula">P = W/t = F·v</div>
+                <p class="pdf-description">Leistung = Arbeit / Zeit</p>
+                <p class="pdf-unit">Einheit: [P] = W (Watt) = J/s</p>
+            </div>
+        </div>
+        
+        <!-- Rotation -->
+        <div class="pdf-section">
+            <h3>Rotationsbewegung</h3>
+            
+            <h4>Grundlegende Größen</h4>
+            
+            <div class="pdf-formula-item">
+                <h5>Winkelgeschwindigkeit</h5>
+                <div class="pdf-formula">ω = φ/t = dφ/dt = 2π/T = 2π·f</div>
+                <p class="pdf-description">Änderung des Drehwinkels pro Zeit</p>
+                <p class="pdf-unit">Einheit: [ω] = rad/s</p>
+            </div>
+            
+            <div class="pdf-formula-item">
+                <h5>Winkelbeschleunigung</h5>
+                <div class="pdf-formula">α = Δω/Δt = dω/dt</div>
+                <p class="pdf-description">Änderung der Winkelgeschwindigkeit pro Zeit</p>
+                <p class="pdf-unit">Einheit: [α] = rad/s²</p>
+            </div>
+            
+            <div class="pdf-formula-item">
+                <h5>Zusammenhang Translation ↔ Rotation</h5>
+                <div class="pdf-formula">v = ω·r</div>
+                <div class="pdf-formula">a<sub>t</sub> = α·r</div>
+                <div class="pdf-formula">a<sub>z</sub> = ω²·r = v²/r</div>
+                <p class="pdf-description">Bahngeschwindigkeit, Tangentialbeschleunigung, Zentripetalbeschleunigung</p>
+            </div>
+            
+            <h4>Dynamik der Rotation</h4>
+            
+            <div class="pdf-formula-item">
+                <h5>Trägheitsmoment</h5>
+                <div class="pdf-formula">I = Σm<sub>i</sub>·r<sub>i</sub>²</div>
+                <p class="pdf-description">Widerstand gegen Drehbeschleunigung</p>
+                <p class="pdf-unit">Einheit: [I] = kg·m²</p>
+                <p class="pdf-description" style="margin-top: 10px;"><strong>Spezielle Fälle:</strong></p>
+                <p class="pdf-description">• Punktmasse: I = m·r²</p>
+                <p class="pdf-description">• Vollzylinder/Scheibe: I = ½·m·r²</p>
+                <p class="pdf-description">• Hohlzylinder: I = m·r²</p>
+                <p class="pdf-description">• Vollkugel: I = ⅖·m·r²</p>
+                <p class="pdf-description">• Stab (Mitte): I = 1/12·m·l²</p>
+            </div>
+            
+            <div class="pdf-formula-item">
+                <h5>Drehmoment</h5>
+                <div class="pdf-formula">M = I·α = F·r·sin(α)</div>
+                <p class="pdf-description">Drehmoment = Trägheitsmoment × Winkelbeschleunigung</p>
+                <p class="pdf-unit">Einheit: [M] = N·m</p>
+            </div>
+            
+            <div class="pdf-formula-item">
+                <h5>Drehimpuls</h5>
+                <div class="pdf-formula">L = I·ω</div>
+                <p class="pdf-description">Drehimpuls = Trägheitsmoment × Winkelgeschwindigkeit</p>
+                <p class="pdf-unit">Einheit: [L] = kg·m²/s</p>
+            </div>
+            
+            <div class="pdf-formula-item">
+                <h5>Rotationsenergie</h5>
+                <div class="pdf-formula">E<sub>rot</sub> = ½·I·ω²</div>
+                <p class="pdf-description">Kinetische Energie der Rotation</p>
+                <p class="pdf-unit">Einheit: [E] = J</p>
+            </div>
+            
+            <div class="pdf-formula-item">
+                <h5>Rotationsarbeit</h5>
+                <div class="pdf-formula">W = M·φ</div>
+                <p class="pdf-description">Arbeit = Drehmoment × Drehwinkel</p>
+                <p class="pdf-unit">Einheit: [W] = J</p>
+            </div>
+            
+            <div class="pdf-formula-item">
+                <h5>Rotationsleistung</h5>
+                <div class="pdf-formula">P = M·ω</div>
+                <p class="pdf-description">Leistung = Drehmoment × Winkelgeschwindigkeit</p>
+                <p class="pdf-unit">Einheit: [P] = W</p>
+            </div>
+        </div>
+        
+        <!-- Vergleich -->
+        <div class="pdf-section">
+            <h3>Vergleich: Translation ↔ Rotation</h3>
+            
+            <table class="pdf-comparison-table">
+                <thead>
+                    <tr>
+                        <th>Größe</th>
+                        <th>Translation</th>
+                        <th>Rotation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Position</td>
+                        <td>s (Weg)</td>
+                        <td>φ (Winkel)</td>
+                    </tr>
+                    <tr>
+                        <td>Geschwindigkeit</td>
+                        <td>v = ds/dt</td>
+                        <td>ω = dφ/dt</td>
+                    </tr>
+                    <tr>
+                        <td>Beschleunigung</td>
+                        <td>a = dv/dt</td>
+                        <td>α = dω/dt</td>
+                    </tr>
+                    <tr>
+                        <td>Trägheit</td>
+                        <td>m (Masse)</td>
+                        <td>I (Trägheitsmoment)</td>
+                    </tr>
+                    <tr>
+                        <td>Kraft/Moment</td>
+                        <td>F = m·a</td>
+                        <td>M = I·α</td>
+                    </tr>
+                    <tr>
+                        <td>Impuls</td>
+                        <td>p = m·v</td>
+                        <td>L = I·ω</td>
+                    </tr>
+                    <tr>
+                        <td>Energie</td>
+                        <td>E<sub>kin</sub> = ½·m·v²</td>
+                        <td>E<sub>rot</sub> = ½·I·ω²</td>
+                    </tr>
+                    <tr>
+                        <td>Arbeit</td>
+                        <td>W = F·s</td>
+                        <td>W = M·φ</td>
+                    </tr>
+                    <tr>
+                        <td>Leistung</td>
+                        <td>P = F·v</td>
+                        <td>P = M·ω</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Mechanik -->
+        <div class="pdf-section">
+            <h3>Mechanik (5./6. Klasse AHS)</h3>
+            
+            <h4>Bewegung</h4>
+            
+            <div class="pdf-formula-item">
+                <h5>Geschwindigkeit</h5>
+                <div class="pdf-formula">v = s/t</div>
+                <p class="pdf-description">Durchschnittsgeschwindigkeit = Weg / Zeit</p>
+                <p class="pdf-unit">Einheit: [v] = m/s</p>
+            </div>
+            
+            <div class="pdf-formula-item">
+                <h5>Gleichförmige Bewegung</h5>
+                <div class="pdf-formula">s = v·t</div>
+                <p class="pdf-description">Zurückgelegter Weg bei konstanter Geschwindigkeit</p>
+            </div>
+            
+            <div class="pdf-formula-item">
+                <h5>Freier Fall</h5>
+                <div class="pdf-formula">v = g·t</div>
+                <div class="pdf-formula">s = ½·g·t²</div>
+                <div class="pdf-formula">v² = 2·g·s</div>
+                <p class="pdf-description">Bewegung unter Erdanziehung (g ≈ 9,81 m/s²)</p>
+            </div>
+            
+            <h4>Kräfte</h4>
+            
+            <div class="pdf-formula-item">
+                <h5>Newton'sches Gesetz</h5>
+                <div class="pdf-formula">F = m·a</div>
+                <p class="pdf-description">Kraft = Masse × Beschleunigung</p>
+                <p class="pdf-unit">Einheit: [F] = N (Newton)</p>
+            </div>
+            
+            <div class="pdf-formula-item">
+                <h5>Gewichtskraft</h5>
+                <div class="pdf-formula">F<sub>G</sub> = m·g</div>
+                <p class="pdf-description">Gewichtskraft auf der Erde</p>
+                <p class="pdf-unit">g ≈ 9,81 m/s²</p>
+            </div>
+            
+            <div class="pdf-formula-item">
+                <h5>Federkraft (Hooke'sches Gesetz)</h5>
+                <div class="pdf-formula">F = D·s</div>
+                <p class="pdf-description">F = Federkraft, D = Federkonstante, s = Auslenkung</p>
+                <p class="pdf-unit">Einheit: [D] = N/m</p>
+            </div>
+            
+            <h4>Eigenschaften der Materie</h4>
+            
+            <div class="pdf-formula-item">
+                <h5>Dichte</h5>
+                <div class="pdf-formula">ρ = m/V</div>
+                <p class="pdf-description">Dichte = Masse / Volumen</p>
+                <p class="pdf-unit">Einheit: [ρ] = kg/m³ oder g/cm³</p>
+            </div>
+            
+            <div class="pdf-formula-item">
+                <h5>Druck</h5>
+                <div class="pdf-formula">p = F/A</div>
+                <p class="pdf-description">Druck = Kraft / Fläche</p>
+                <p class="pdf-unit">Einheit: [p] = Pa (Pascal) = N/m²</p>
+            </div>
+        </div>
+        
+        <!-- Energie & Wärme -->
+        <div class="pdf-section">
+            <h3>Energie & Wärme</h3>
+            
+            <h4>Mechanische Energie</h4>
+            
+            <div class="pdf-formula-item">
+                <h5>Arbeit</h5>
+                <div class="pdf-formula">W = F·s</div>
+                <p class="pdf-description">Arbeit = Kraft × Weg (in Kraftrichtung)</p>
+                <p class="pdf-unit">Einheit: [W] = J (Joule)</p>
+            </div>
+            
+            <div class="pdf-formula-item">
+                <h5>Hubarbeit</h5>
+                <div class="pdf-formula">W<sub>Hub</sub> = m·g·h</div>
+                <p class="pdf-description">Arbeit zum Heben eines Körpers</p>
+            </div>
+            
+            <div class="pdf-formula-item">
+                <h5>Potentielle Energie (Lageenergie)</h5>
+                <div class="pdf-formula">E<sub>pot</sub> = m·g·h</div>
+                <p class="pdf-description">Energie aufgrund der Höhe</p>
+                <p class="pdf-unit">Einheit: [E] = J</p>
+            </div>
+            
+            <div class="pdf-formula-item">
+                <h5>Kinetische Energie (Bewegungsenergie)</h5>
+                <div class="pdf-formula">E<sub>kin</sub> = ½·m·v²</div>
+                <p class="pdf-description">Energie aufgrund der Bewegung</p>
+                <p class="pdf-unit">Einheit: [E] = J</p>
+            </div>
+            
+            <div class="pdf-formula-item">
+                <h5>Spannenergie</h5>
+                <div class="pdf-formula">E<sub>Spann</sub> = ½·D·s²</div>
+                <p class="pdf-description">Energie einer gespannten Feder</p>
+                <p class="pdf-unit">Einheit: [E] = J</p>
+            </div>
+            
+            <div class="pdf-formula-item">
+                <h5>Leistung</h5>
+                <div class="pdf-formula">P = W/t</div>
+                <p class="pdf-description">Leistung = Arbeit / Zeit</p>
+                <p class="pdf-unit">Einheit: [P] = W (Watt) = J/s</p>
+            </div>
+            
+            <div class="pdf-formula-item">
+                <h5>Wirkungsgrad</h5>
+                <div class="pdf-formula">η = W<sub>nutz</sub>/W<sub>zu</sub></div>
+                <p class="pdf-description">Verhältnis von Nutzenergie zu zugeführter Energie</p>
+                <p class="pdf-unit">η ist dimensionslos (oft in % angegeben)</p>
+            </div>
+            
+            <h4>Wärmelehre</h4>
+            
+            <div class="pdf-formula-item">
+                <h5>Wärmekapazität</h5>
+                <div class="pdf-formula">Q = c·m·ΔT</div>
+                <p class="pdf-description">Wärmemenge für Temperaturänderung</p>
+                <p class="pdf-description">c = spezifische Wärmekapazität, m = Masse, ΔT = Temperaturänderung</p>
+                <p class="pdf-unit">Einheit: [Q] = J, [c] = J/(kg·K)</p>
+                <p class="pdf-description" style="margin-top: 10px;"><strong>Beispiele:</strong></p>
+                <p class="pdf-description">• Wasser: c = 4180 J/(kg·K)</p>
+                <p class="pdf-description">• Eisen: c = 450 J/(kg·K)</p>
+                <p class="pdf-description">• Aluminium: c = 900 J/(kg·K)</p>
+            </div>
+        </div>
+        
+        <!-- Optik -->
+        <div class="pdf-section">
+            <h3>Optik</h3>
+            
+            <div class="pdf-formula-item">
+                <h5>Brechungsgesetz (Snellius)</h5>
+                <div class="pdf-formula">n₁·sin(α) = n₂·sin(β)</div>
+                <p class="pdf-description">Gesetz der Lichtbrechung beim Übergang zwischen Medien</p>
+                <p class="pdf-description">n = Brechungsindex, α = Einfallswinkel, β = Brechungswinkel</p>
+                <p class="pdf-unit">n ist dimensionslos</p>
+            </div>
+            
+            <div class="pdf-formula-item">
+                <h5>Linsengleichung</h5>
+                <div class="pdf-formula">1/f = 1/g + 1/b</div>
+                <p class="pdf-description">Abbildung durch dünne Linse</p>
+                <p class="pdf-description">f = Brennweite, g = Gegenstandsweite, b = Bildweite</p>
+                <p class="pdf-unit">Alle Größen in gleicher Einheit (m oder cm)</p>
+            </div>
+            
+            <div class="pdf-formula-item">
+                <h5>Abbildungsmaßstab</h5>
+                <div class="pdf-formula">V = B/G = b/g</div>
+                <p class="pdf-description">Vergrößerung = Bildgröße / Gegenstandsgröße = Bildweite / Gegenstandsweite</p>
+                <p class="pdf-unit">V ist dimensionslos</p>
+            </div>
+            
+            <div class="pdf-formula-item">
+                <h5>Brechkraft</h5>
+                <div class="pdf-formula">D = 1/f</div>
+                <p class="pdf-description">Brechkraft = 1 / Brennweite (f in Meter einsetzen!)</p>
+                <p class="pdf-unit">Einheit: [D] = dpt (Dioptrie), 1 dpt = 1/m</p>
+            </div>
+        </div>
+    `;
+    
+    pdfContent.innerHTML = htmlContent;
+    
+    // Configure PDF options
+    const opt = {
+        margin: [15, 15, 15, 15],
+        filename: 'Physik_Formelsammlung.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+    };
+    
+    // Generate PDF
+    const pdfView = document.getElementById('pdfView');
+    pdfView.style.display = 'block';
+    
+    html2pdf().set(opt).from(pdfView).save().then(() => {
+        pdfView.style.display = 'none';
+        alert('PDF erfolgreich erstellt und heruntergeladen!');
+    });
+}
