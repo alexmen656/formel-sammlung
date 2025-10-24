@@ -288,6 +288,60 @@ function calculateVelocity() {
     
     const v = s / t;
     showResult('velocity_result', `✓ Geschwindigkeit: v = ${v.toFixed(3)} m/s`);
+    
+    // Update inline graph if visible
+    updateVelocityGraph(s, t, v);
+}
+
+function velocitygraphInit() {
+    const ctx = document.getElementById('velocity-inline-chart');
+    if (!ctx) return;
+    
+    inlineCharts['velocity-graph'] = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['0', '2', '4', '6', '8', '10'],
+            datasets: [{
+                label: 'Weg s(t)',
+                data: [0, 0, 0, 0, 0, 0],
+                borderColor: '#667eea',
+                backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                borderWidth: 3,
+                tension: 0,
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: true, position: 'top' },
+                title: { display: true, text: 'Weg-Zeit-Diagramm (gleichförmige Bewegung)' }
+            },
+            scales: {
+                x: { title: { display: true, text: 'Zeit t (s)' } },
+                y: { title: { display: true, text: 'Weg s (m)' }, beginAtZero: true }
+            }
+        }
+    });
+}
+
+function updateVelocityGraph(s, t, v) {
+    const chart = inlineCharts['velocity-graph'];
+    if (!chart) return;
+    
+    const t_max = Math.max(t * 1.5, 10);
+    const t_values = [];
+    const s_values = [];
+    
+    for (let time = 0; time <= t_max; time += t_max / 20) {
+        t_values.push(time.toFixed(1));
+        s_values.push(v * time);
+    }
+    
+    chart.data.labels = t_values;
+    chart.data.datasets[0].data = s_values;
+    chart.update();
 }
 
 function calculateAcceleration() {
@@ -301,6 +355,61 @@ function calculateAcceleration() {
     
     const a = dv / dt;
     showResult('acceleration_result', `✓ Beschleunigung: a = ${a.toFixed(3)} m/s²`);
+    
+    // Update inline graph if visible
+    updateAccelerationGraph(dv, dt, a);
+}
+
+function accelerationgraphInit() {
+    const ctx = document.getElementById('acceleration-inline-chart');
+    if (!ctx) return;
+    
+    inlineCharts['acceleration-graph'] = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['0', '1', '2', '3', '4', '5'],
+            datasets: [{
+                label: 'Geschwindigkeit v(t)',
+                data: [0, 0, 0, 0, 0, 0],
+                borderColor: '#667eea',
+                backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                borderWidth: 3,
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: true, position: 'top' },
+                title: { display: true, text: 'Geschwindigkeit-Zeit-Diagramm' }
+            },
+            scales: {
+                x: { title: { display: true, text: 'Zeit t (s)' } },
+                y: { title: { display: true, text: 'Geschwindigkeit v (m/s)' }, beginAtZero: true }
+            }
+        }
+    });
+}
+
+function updateAccelerationGraph(dv, dt, a) {
+    const chart = inlineCharts['acceleration-graph'];
+    if (!chart) return;
+    
+    const t_values = [];
+    const v_values = [];
+    const v0 = 0; // Start from 0
+    
+    const steps = 20;
+    for (let i = 0; i <= steps; i++) {
+        const t = (dt * 1.5 / steps) * i;
+        t_values.push(t.toFixed(2));
+        v_values.push(v0 + a * t);
+    }
+    
+    chart.data.labels = t_values;
+    chart.data.datasets[0].data = v_values;
+    chart.update();
 }
 
 function calculateUniformAcceleration() {
@@ -320,6 +429,73 @@ function calculateUniformAcceleration() {
     result += `✓ Zurückgelegte Strecke: s = ${s.toFixed(3)} m`;
     
     showResult('uniform_result', result);
+    
+    // Update inline graph if visible
+    updateUniformAccelGraph(v0, a, t, v, s);
+}
+
+function uniformaccelgraphInit() {
+    const ctx = document.getElementById('uniform-accel-inline-chart');
+    if (!ctx) return;
+    
+    inlineCharts['uniform-accel-graph'] = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['0', '1', '2', '3', '4', '5'],
+            datasets: [{
+                label: 'Geschwindigkeit v(t)',
+                data: [0, 0, 0, 0, 0, 0],
+                borderColor: '#667eea',
+                backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                borderWidth: 3,
+                yAxisID: 'y',
+                fill: true
+            }, {
+                label: 'Weg s(t)',
+                data: [0, 0, 0, 0, 0, 0],
+                borderColor: '#f093fb',
+                backgroundColor: 'rgba(240, 147, 251, 0.1)',
+                borderWidth: 3,
+                yAxisID: 'y1',
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: true, position: 'top' },
+                title: { display: true, text: 'Gleichmäßig beschleunigte Bewegung' }
+            },
+            scales: {
+                x: { title: { display: true, text: 'Zeit t (s)' } },
+                y: { type: 'linear', position: 'left', title: { display: true, text: 'Geschwindigkeit v (m/s)' }, beginAtZero: true },
+                y1: { type: 'linear', position: 'right', title: { display: true, text: 'Weg s (m)' }, beginAtZero: true, grid: { drawOnChartArea: false } }
+            }
+        }
+    });
+}
+
+function updateUniformAccelGraph(v0, a, t_max, v_end, s_end) {
+    const chart = inlineCharts['uniform-accel-graph'];
+    if (!chart) return;
+    
+    const t_values = [];
+    const v_values = [];
+    const s_values = [];
+    
+    const steps = 20;
+    for (let i = 0; i <= steps; i++) {
+        const t = (t_max / steps) * i;
+        t_values.push(t.toFixed(2));
+        v_values.push(v0 + a * t);
+        s_values.push(v0 * t + 0.5 * a * t * t);
+    }
+    
+    chart.data.labels = t_values;
+    chart.data.datasets[0].data = v_values;
+    chart.data.datasets[1].data = s_values;
+    chart.update();
 }
 
 function calculateForce() {
@@ -333,6 +509,60 @@ function calculateForce() {
     
     const F = m * a;
     showResult('force_result', `✓ Kraft: F = ${F.toFixed(3)} N`);
+    
+    // Update inline graph if visible
+    updateForceGraph(m, a, F);
+}
+
+function forcegraphInit() {
+    const ctx = document.getElementById('force-inline-chart');
+    if (!ctx) return;
+    
+    inlineCharts['force-graph'] = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['0', '2', '4', '6', '8', '10'],
+            datasets: [{
+                label: 'Kraft F(a)',
+                data: [0, 0, 0, 0, 0, 0],
+                borderColor: '#667eea',
+                backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                borderWidth: 3,
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: true, position: 'top' },
+                title: { display: true, text: 'Kraft vs. Beschleunigung (F = m·a)' }
+            },
+            scales: {
+                x: { title: { display: true, text: 'Beschleunigung a (m/s²)' } },
+                y: { title: { display: true, text: 'Kraft F (N)' }, beginAtZero: true }
+            }
+        }
+    });
+}
+
+function updateForceGraph(m, a_max, F_max) {
+    const chart = inlineCharts['force-graph'];
+    if (!chart) return;
+    
+    const a_values = [];
+    const F_values = [];
+    
+    const steps = 20;
+    for (let i = 0; i <= steps; i++) {
+        const a = (a_max / steps) * i;
+        a_values.push(a.toFixed(2));
+        F_values.push(m * a);
+    }
+    
+    chart.data.labels = a_values;
+    chart.data.datasets[0].data = F_values;
+    chart.update();
 }
 
 function calculateMomentum() {
@@ -359,6 +589,60 @@ function calculateKineticEnergy() {
     
     const E = 0.5 * m * v * v;
     showResult('kinetic_result', `✓ Kinetische Energie: E<sub>kin</sub> = ${E.toFixed(3)} J`);
+    
+    // Update inline graph if visible
+    updateKineticEnergyGraph(m, v, E);
+}
+
+function kineticenergygraphInit() {
+    const ctx = document.getElementById('kinetic-energy-inline-chart');
+    if (!ctx) return;
+    
+    inlineCharts['kinetic-energy-graph'] = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['0', '5', '10', '15', '20'],
+            datasets: [{
+                label: 'E_kin(v)',
+                data: [0, 0, 0, 0, 0],
+                borderColor: '#667eea',
+                backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                borderWidth: 3,
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: true, position: 'top' },
+                title: { display: true, text: 'Kinetische Energie vs. Geschwindigkeit' }
+            },
+            scales: {
+                x: { title: { display: true, text: 'Geschwindigkeit v (m/s)' } },
+                y: { title: { display: true, text: 'Energie E_kin (J)' }, beginAtZero: true }
+            }
+        }
+    });
+}
+
+function updateKineticEnergyGraph(m, v_max, E_max) {
+    const chart = inlineCharts['kinetic-energy-graph'];
+    if (!chart) return;
+    
+    const v_values = [];
+    const E_values = [];
+    
+    const steps = 20;
+    for (let i = 0; i <= steps; i++) {
+        const v = (v_max / steps) * i;
+        v_values.push(v.toFixed(2));
+        E_values.push(0.5 * m * v * v);
+    }
+    
+    chart.data.labels = v_values;
+    chart.data.datasets[0].data = E_values;
+    chart.update();
 }
 
 function calculateWork() {
@@ -409,6 +693,60 @@ function calculateAngularVelocity() {
     result += `✓ Frequenz: f = ${f.toFixed(3)} Hz`;
     
     showResult('angular_velocity_result', result);
+    
+    // Update inline graph if visible
+    updateAngularVelocityGraph(phi, t, omega);
+}
+
+function angularvelocitygraphInit() {
+    const ctx = document.getElementById('angular-velocity-inline-chart');
+    if (!ctx) return;
+    
+    inlineCharts['angular-velocity-graph'] = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['0', '2', '4', '6', '8', '10'],
+            datasets: [{
+                label: 'Winkel φ(t)',
+                data: [0, 0, 0, 0, 0, 0],
+                borderColor: '#667eea',
+                backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                borderWidth: 3,
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: true, position: 'top' },
+                title: { display: true, text: 'Winkel-Zeit-Diagramm (gleichförmige Rotation)' }
+            },
+            scales: {
+                x: { title: { display: true, text: 'Zeit t (s)' } },
+                y: { title: { display: true, text: 'Winkel φ (rad)' }, beginAtZero: true }
+            }
+        }
+    });
+}
+
+function updateAngularVelocityGraph(phi_max, t_max, omega) {
+    const chart = inlineCharts['angular-velocity-graph'];
+    if (!chart) return;
+    
+    const t_values = [];
+    const phi_values = [];
+    
+    const steps = 20;
+    for (let i = 0; i <= steps; i++) {
+        const t = (t_max * 1.5 / steps) * i;
+        t_values.push(t.toFixed(2));
+        phi_values.push(omega * t);
+    }
+    
+    chart.data.labels = t_values;
+    chart.data.datasets[0].data = phi_values;
+    chart.update();
 }
 
 function calculateAngularAcceleration() {
@@ -615,6 +953,73 @@ function calculateFreeFall() {
     let result = `Endgeschwindigkeit: v = ${v.toFixed(2)} m/s<br>`;
     result += `Fallstrecke: s = ${s.toFixed(2)} m`;
     showResult('fall_result', result);
+    
+    // Update inline graph if visible
+    updateFreeFallInlineGraph(t, g, v, s);
+}
+
+function freefallgraphInit() {
+    const ctx = document.getElementById('free-fall-inline-chart');
+    if (!ctx) return;
+    
+    inlineCharts['free-fall-graph'] = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['0', '1', '2', '3', '4', '5'],
+            datasets: [{
+                label: 'Geschwindigkeit v(t)',
+                data: [0, 0, 0, 0, 0, 0],
+                borderColor: '#667eea',
+                backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                borderWidth: 3,
+                yAxisID: 'y',
+                fill: true
+            }, {
+                label: 'Fallstrecke s(t)',
+                data: [0, 0, 0, 0, 0, 0],
+                borderColor: '#f093fb',
+                backgroundColor: 'rgba(240, 147, 251, 0.1)',
+                borderWidth: 3,
+                yAxisID: 'y1',
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: true, position: 'top' },
+                title: { display: true, text: 'Freier Fall' }
+            },
+            scales: {
+                x: { title: { display: true, text: 'Zeit t (s)' } },
+                y: { type: 'linear', position: 'left', title: { display: true, text: 'Geschwindigkeit v (m/s)' }, beginAtZero: true },
+                y1: { type: 'linear', position: 'right', title: { display: true, text: 'Fallstrecke s (m)' }, beginAtZero: true, grid: { drawOnChartArea: false } }
+            }
+        }
+    });
+}
+
+function updateFreeFallInlineGraph(t_max, g, v_end, s_end) {
+    const chart = inlineCharts['free-fall-graph'];
+    if (!chart) return;
+    
+    const t_values = [];
+    const v_values = [];
+    const s_values = [];
+    
+    const steps = 20;
+    for (let i = 0; i <= steps; i++) {
+        const t = (t_max / steps) * i;
+        t_values.push(t.toFixed(2));
+        v_values.push(g * t);
+        s_values.push(0.5 * g * t * t);
+    }
+    
+    chart.data.labels = t_values;
+    chart.data.datasets[0].data = v_values;
+    chart.data.datasets[1].data = s_values;
+    chart.update();
 }
 
 function calculateNewtonForce() {
@@ -737,6 +1142,60 @@ function calculatePotentialEnergy() {
     const g = 9.81;
     const E = m * g * h;
     showResult('pot_energy_result', `Potentielle Energie: E<sub>pot</sub> = ${E.toFixed(2)} J`);
+    
+    // Update inline graph if visible
+    updatePotentialEnergyGraph(m, h, g, E);
+}
+
+function potentialenergygraphInit() {
+    const ctx = document.getElementById('potential-energy-inline-chart');
+    if (!ctx) return;
+    
+    inlineCharts['potential-energy-graph'] = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['0', '5', '10', '15', '20'],
+            datasets: [{
+                label: 'E_pot(h)',
+                data: [0, 0, 0, 0, 0],
+                borderColor: '#667eea',
+                backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                borderWidth: 3,
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: true, position: 'top' },
+                title: { display: true, text: 'Potentielle Energie vs. Höhe' }
+            },
+            scales: {
+                x: { title: { display: true, text: 'Höhe h (m)' } },
+                y: { title: { display: true, text: 'Energie E_pot (J)' }, beginAtZero: true }
+            }
+        }
+    });
+}
+
+function updatePotentialEnergyGraph(m, h_max, g, E_max) {
+    const chart = inlineCharts['potential-energy-graph'];
+    if (!chart) return;
+    
+    const h_values = [];
+    const E_values = [];
+    
+    const steps = 20;
+    for (let i = 0; i <= steps; i++) {
+        const h = (h_max / steps) * i;
+        h_values.push(h.toFixed(2));
+        E_values.push(m * g * h);
+    }
+    
+    chart.data.labels = h_values;
+    chart.data.datasets[0].data = E_values;
+    chart.update();
 }
 
 function calculateKinEnergy() {
@@ -763,6 +1222,60 @@ function calculateSpringEnergy() {
     
     const E = 0.5 * D * s * s;
     showResult('spring_energy_result', `Spannenergie: E<sub>Spann</sub> = ${E.toFixed(3)} J`);
+    
+    // Update inline graph if visible
+    updateSpringEnergyGraph(D, s, E);
+}
+
+function springenergygraphInit() {
+    const ctx = document.getElementById('spring-energy-inline-chart');
+    if (!ctx) return;
+    
+    inlineCharts['spring-energy-graph'] = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['0', '0.02', '0.04', '0.06', '0.08', '0.1'],
+            datasets: [{
+                label: 'E_Spann(s)',
+                data: [0, 0, 0, 0, 0, 0],
+                borderColor: '#667eea',
+                backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                borderWidth: 3,
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: true, position: 'top' },
+                title: { display: true, text: 'Spannenergie vs. Auslenkung' }
+            },
+            scales: {
+                x: { title: { display: true, text: 'Auslenkung s (m)' } },
+                y: { title: { display: true, text: 'Energie E_Spann (J)' }, beginAtZero: true }
+            }
+        }
+    });
+}
+
+function updateSpringEnergyGraph(D, s_max, E_max) {
+    const chart = inlineCharts['spring-energy-graph'];
+    if (!chart) return;
+    
+    const s_values = [];
+    const E_values = [];
+    
+    const steps = 20;
+    for (let i = 0; i <= steps; i++) {
+        const s = (s_max / steps) * i;
+        s_values.push(s.toFixed(3));
+        E_values.push(0.5 * D * s * s);
+    }
+    
+    chart.data.labels = s_values;
+    chart.data.datasets[0].data = E_values;
+    chart.update();
 }
 
 function calculateBasicPower() {
@@ -905,6 +1418,36 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Graph Storage
 let charts = {};
+let inlineCharts = {};
+
+// Toggle Graph Visibility
+function toggleGraph(graphId) {
+    const content = document.getElementById(graphId);
+    if (!content) {
+        console.error('Graph content not found:', graphId);
+        return;
+    }
+    
+    const button = content.previousElementSibling;
+    
+    content.classList.toggle('active');
+    button.classList.toggle('active');
+    
+    // Initialize chart if it doesn't exist yet and content is now active
+    if (content.classList.contains('active') && !inlineCharts[graphId]) {
+        // Convert graph-id to initFunctionName
+        // e.g., 'velocity-graph' -> 'velocitygraphInit'
+        // e.g., 'uniform-accel-graph' -> 'uniformaccelgraphInit'
+        const initFunctionName = graphId.replace(/-/g, '') + 'Init';
+        console.log('Trying to init:', initFunctionName);
+        
+        if (typeof window[initFunctionName] === 'function') {
+            window[initFunctionName]();
+        } else {
+            console.error('Init function not found:', initFunctionName);
+        }
+    }
+}
 
 // Initialize all graphs
 function initializeGraphs() {

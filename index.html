@@ -11,7 +11,6 @@
     <div class="container">
         <header>
             <h1>Physik Formelsammlung</h1>
-            <h2>Translation & Rotation</h2>
             
             <div class="header-controls">
                 <div class="search-container">
@@ -108,6 +107,16 @@
                         <button onclick="calculateVelocity()">Berechnen</button>
                         <div class="result" id="velocity_result"></div>
                     </div>
+                    
+                    <button class="graph-toggle" onclick="toggleGraph('velocity-graph')">
+                        <span>Weg-Zeit-Diagramm anzeigen</span>
+                        <span class="graph-toggle-icon">▼</span>
+                    </button>
+                    <div class="graph-content" id="velocity-graph">
+                        <div class="inline-chart-container">
+                            <canvas id="velocity-inline-chart"></canvas>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="formula-card">
@@ -121,6 +130,16 @@
                         <input type="number" id="trans_dt" placeholder="Zeit Δt (s)">
                         <button onclick="calculateAcceleration()">Berechnen</button>
                         <div class="result" id="acceleration_result"></div>
+                    </div>
+                    
+                    <button class="graph-toggle" onclick="toggleGraph('acceleration-graph')">
+                        <span>📊 v-t Diagramm anzeigen</span>
+                        <span class="graph-toggle-icon">▼</span>
+                    </button>
+                    <div class="graph-content" id="acceleration-graph">
+                        <div class="inline-chart-container">
+                            <canvas id="acceleration-inline-chart"></canvas>
+                        </div>
                     </div>
                 </div>
 
@@ -137,6 +156,16 @@
                         <button onclick="calculateUniformAcceleration()">Berechnen</button>
                         <div class="result" id="uniform_result"></div>
                     </div>
+                    
+                    <button class="graph-toggle" onclick="toggleGraph('uniform-accel-graph')">
+                        <span>v-t und s-t Diagramme anzeigen</span>
+                        <span class="graph-toggle-icon">▼</span>
+                    </button>
+                    <div class="graph-content" id="uniform-accel-graph">
+                        <div class="inline-chart-container">
+                            <canvas id="uniform-accel-inline-chart"></canvas>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -152,6 +181,16 @@
                         <input type="number" id="trans_accel" placeholder="Beschleunigung a (m/s²)">
                         <button onclick="calculateForce()">Berechnen</button>
                         <div class="result" id="force_result"></div>
+                    </div>
+                    
+                    <button class="graph-toggle" onclick="toggleGraph('force-graph')">
+                        <span>📊 F-a Diagramm anzeigen</span>
+                        <span class="graph-toggle-icon">▼</span>
+                    </button>
+                    <div class="graph-content" id="force-graph">
+                        <div class="inline-chart-container">
+                            <canvas id="force-inline-chart"></canvas>
+                        </div>
                     </div>
                 </div>
 
@@ -178,6 +217,16 @@
                         <input type="number" id="kin_vel" placeholder="Geschwindigkeit v (m/s)">
                         <button onclick="calculateKineticEnergy()">Berechnen</button>
                         <div class="result" id="kinetic_result"></div>
+                    </div>
+                    
+                    <button class="graph-toggle" onclick="toggleGraph('kinetic-energy-graph')">
+                        <span>E_kin-v Diagramm anzeigen</span>
+                        <span class="graph-toggle-icon">▼</span>
+                    </button>
+                    <div class="graph-content" id="kinetic-energy-graph">
+                        <div class="inline-chart-container">
+                            <canvas id="kinetic-energy-inline-chart"></canvas>
+                        </div>
                     </div>
                 </div>
 
@@ -226,6 +275,16 @@
                         <input type="number" id="rot_t" placeholder="Zeit t (s)">
                         <button onclick="calculateAngularVelocity()">Berechnen</button>
                         <div class="result" id="angular_velocity_result"></div>
+                    </div>
+                    
+                    <button class="graph-toggle" onclick="toggleGraph('angular-velocity-graph')">
+                        <span>φ-t Diagramm anzeigen</span>
+                        <span class="graph-toggle-icon">▼</span>
+                    </button>
+                    <div class="graph-content" id="angular-velocity-graph">
+                        <div class="inline-chart-container">
+                            <canvas id="angular-velocity-inline-chart"></canvas>
+                        </div>
                     </div>
                 </div>
 
@@ -502,6 +561,16 @@
                         <button onclick="calculateFreeFall()">Berechnen</button>
                         <div class="result" id="fall_result"></div>
                     </div>
+                    
+                    <button class="graph-toggle" onclick="toggleGraph('free-fall-graph')">
+                        <span>Freier Fall Diagramme anzeigen</span>
+                        <span class="graph-toggle-icon">▼</span>
+                    </button>
+                    <div class="graph-content" id="free-fall-graph">
+                        <div class="inline-chart-container">
+                            <canvas id="free-fall-inline-chart"></canvas>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -650,6 +719,16 @@
                         <button onclick="calculatePotentialEnergy()">Berechnen</button>
                         <div class="result" id="pot_energy_result"></div>
                     </div>
+                    
+                    <button class="graph-toggle" onclick="toggleGraph('potential-energy-graph')">
+                        <span>📊 E_pot-h Diagramm anzeigen</span>
+                        <span class="graph-toggle-icon">▼</span>
+                    </button>
+                    <div class="graph-content" id="potential-energy-graph">
+                        <div class="inline-chart-container">
+                            <canvas id="potential-energy-inline-chart"></canvas>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="formula-card">
@@ -677,6 +756,16 @@
                         <input type="number" id="spring_energy_s" placeholder="Auslenkung s (m)">
                         <button onclick="calculateSpringEnergy()">Berechnen</button>
                         <div class="result" id="spring_energy_result"></div>
+                    </div>
+                    
+                    <button class="graph-toggle" onclick="toggleGraph('spring-energy-graph')">
+                        <span>📊 E_Spann-s Diagramm anzeigen</span>
+                        <span class="graph-toggle-icon">▼</span>
+                    </button>
+                    <div class="graph-content" id="spring-energy-graph">
+                        <div class="inline-chart-container">
+                            <canvas id="spring-energy-inline-chart"></canvas>
+                        </div>
                     </div>
                 </div>
 
