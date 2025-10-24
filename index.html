@@ -10,6 +10,19 @@
 </head>
 <body>
     <div class="container">
+        <!-- Sidebar Navigation -->
+        <nav class="tabs">
+            <button class="tab-button active" onclick="showTab('translation')" data-tab="translation">Translation</button>
+            <button class="tab-button" onclick="showTab('rotation')" data-tab="rotation">Rotation</button>
+            <button class="tab-button" onclick="showTab('vergleich')" data-tab="vergleich">Vergleich</button>
+            <button class="tab-button" onclick="showTab('mechanik')" data-tab="mechanik">Mechanik</button>
+            <button class="tab-button" onclick="showTab('energie')" data-tab="energie">Energie & Wärme</button>
+            <button class="tab-button" onclick="showTab('optik')" data-tab="optik">Optik</button>
+            <button class="tab-button" onclick="showTab('einheiten')" data-tab="einheiten">Einheiten</button>
+            <button class="tab-button" onclick="showTab('graphen')" data-tab="graphen">Graphen</button>
+        </nav>
+
+        <!-- Header -->
         <header>
             <h1>Physik Formelsammlung</h1>
             
@@ -71,23 +84,12 @@
                 </div>
                 
                 <button class="pdf-export-button" onclick="exportToPDF()">
-                    PDF Export
+                    PDF
                 </button>
             </div>
         </header>
 
         <div class="search-results" id="searchResults"></div>
-
-        <nav class="tabs">
-            <button class="tab-button active" onclick="showTab('translation')" data-tab="translation">Translation</button>
-            <button class="tab-button" onclick="showTab('rotation')" data-tab="rotation">Rotation</button>
-            <button class="tab-button" onclick="showTab('vergleich')" data-tab="vergleich">Vergleich</button>
-            <button class="tab-button" onclick="showTab('mechanik')" data-tab="mechanik">Mechanik</button>
-            <button class="tab-button" onclick="showTab('energie')" data-tab="energie">Energie & Wärme</button>
-            <button class="tab-button" onclick="showTab('optik')" data-tab="optik">Optik</button>
-            <button class="tab-button" onclick="showTab('einheiten')" data-tab="einheiten">Einheiten</button>
-            <button class="tab-button" onclick="showTab('graphen')" data-tab="graphen">Graphen</button>
-        </nav>
 
         <!-- Translation Tab -->
         <div id="translation" class="tab-content active">
@@ -506,9 +508,9 @@
             </div>
         </div>
 
-        <!-- Mechanik Tab (5./6. Klasse AHS) -->
+        <!-- Mechanik Tab -->
         <div id="mechanik" class="tab-content">
-            <h3>Mechanik (5./6. Klasse AHS)</h3>
+            <h3>Mechanik</h3>
             
             <div class="formula-section">
                 <h4>Grundlagen der Kinematik</h4>
@@ -672,9 +674,9 @@
             </div>
         </div>
 
-        <!-- Energie & Wärme Tab (5./6. Klasse AHS) -->
+        <!-- Energie & Wärme Tab -->
         <div id="energie" class="tab-content">
-            <h3>Energie und Wärmelehre (5./6. Klasse AHS)</h3>
+            <h3>Energie und Wärmelehre</h3>
             
             <div class="formula-section">
                 <h4>Mechanische Energie</h4>
@@ -1019,9 +1021,9 @@
             </div>
         </div>
 
-        <!-- Optik Tab (5./6. Klasse AHS) -->
+        <!-- Optik Tab -->
         <div id="optik" class="tab-content">
-            <h3>Optik (5./6. Klasse AHS)</h3>
+            <h3>Optik</h3>
             
             <div class="formula-section">
                 <h4>Grundlagen der Optik</h4>
